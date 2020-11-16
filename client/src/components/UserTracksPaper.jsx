@@ -89,7 +89,7 @@ const UserTracksPaper = ({ children, tracks }) => {
               value={value}
               textColor="inherit"
             >
-              <Tab label="Tracks" disableFocusRipple disableRipple/>
+              <Tab label="Tracks" id="back-to-tracks-anchor" disableFocusRipple disableRipple/>
             </Tabs>
           </Paper>
           {tracks && tracks.map((item) => (
