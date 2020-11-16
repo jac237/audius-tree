@@ -25,7 +25,7 @@ const getTrending = async (genre, time) => {
   return response.json();
 };
 
-module.exports = {
+export {
   getUserInfo,
   getUsersQuery,
   getFavorites,
