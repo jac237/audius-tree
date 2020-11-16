@@ -106,7 +106,7 @@ const SongCard = ({ track }) => {
       />
       <CardContent classes={{ root: classes.content }}>
         <Grid container direction="column">
-          <Grid item xs container direction="row" justify="space-between">
+          <Grid item container direction="row" justify="space-between">
             <Grid item>
               {track?.mood &&
                 <Chip
@@ -147,7 +147,7 @@ const SongCard = ({ track }) => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid item xs container direction="row" justify="space-between" alignItems="flex-end">
+        <Grid item container direction="row" justify="space-between" alignItems="flex-end">
           <Grid item>
             <Link
               classes={{ root: classes.link }}
