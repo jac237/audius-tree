@@ -1,4 +1,4 @@
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:1337' : '';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:1337' : 'https://audius-tree-api.vercel.app';
 
 const getUserInfo = async (handle) => {
   const response = await fetch(`${API_URL}/user/${handle}`);
