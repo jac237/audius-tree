@@ -10,7 +10,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Avatar from '@material-ui/core/Avatar';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 
-import { getUsersQuery } from '../api/audius';
+import { getUsersQuery } from '../api/audius.js';
 
 const CssTextField = withStyles({
   root: {

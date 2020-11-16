@@ -20,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { getFavorites, getTrending } from '../api/audius';
+import { getFavorites, getTrending } from '../api/audius.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {

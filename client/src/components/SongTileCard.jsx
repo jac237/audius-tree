@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from '@material-ui/core/Link';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 // Audius API
-import { getTrack } from '../api/audius';
+import { getTrack } from '../api/audius.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
