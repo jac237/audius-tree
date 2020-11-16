@@ -139,7 +139,7 @@ const SongCard = ({ track }) => {
                 href={`https://audius.co/${track?.user?.handle}`}
                 color="inherit"
               >
-                {track?.user?.handle}
+                {track?.user?.name}
               </Link>
               {track?.user?.is_verified && 
                 <VerifiedIcon className={classes.verified} fontSize="small"/>
