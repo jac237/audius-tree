@@ -19,6 +19,6 @@
   "env": {
     "NODE_ENV": "production",
     "PORT": "1337",
-    "CORS_ORIGIN": ""
+    "CORS_ORIGIN": "https://audiustree.vercel.app/"
   }
 }
