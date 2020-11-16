@@ -122,7 +122,7 @@ const UserStatsCard = ({ user }) => {
               </Hidden>
             </Grid>
             <Grid item xs={8} container direction="column">
-              <Grid item xs container spacing={2} direction="row">
+              <Grid item container spacing={2} direction="row">
                 <Grid item xs={4}>
                   <Typography variant="inherit" component="h2" align="center">
                     {user.track_count}
