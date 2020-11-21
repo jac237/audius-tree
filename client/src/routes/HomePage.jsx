@@ -15,12 +15,14 @@ import Zoom from '@material-ui/core/Zoom';
 import Chip from '@material-ui/core/Chip';
 import Navbar from '../components/Navbar';
 import SongTileCard from '../components/SongTileCard';
+import UserTileCard from '../components/UserTileCard';
 import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { getFavorites, getTrending } from '../api/audius';
+import featuredArtists from '../components/featuredArtists';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,7 +97,7 @@ const Home = (props) => {
   const userID = 'DBkVA';
   const trendingGenre = 'Moombahton';
   const trendingTime = 'week';
-  const featuredArtists = [];
+  const artists = featuredArtists.slice(0, featuredArtistTileLimit);
   
   const [favorites, setFavorites] = useState([]);
   const [trending, setTrending] = useState([]);
@@ -127,6 +129,7 @@ const Home = (props) => {
               <Collapse in={alert} style={{ width: '100%' }}>
                 <Grid item style={{ paddingTop: 16}}>
                   <Alert
+                    icon={false}
                     severity="info"
                     action={
                       <IconButton
@@ -203,20 +206,17 @@ const Home = (props) => {
                   </Grid>
                   <Hidden only="xs">
                     <Grid item className={classes.chips}>
-                      <Chip label="FAVORITES 💚" />
+                      <Chip label="FAVORITES 🖤" />
                       <Chip label="GROUPCHATCLUB 💬" />
                     </Grid>
                   </Hidden>
                 </Grid>
-                <Grid item container spacing={1} justify="center">
-                  <Typography variant="inherit" >
-                    Coming Soon...
-                  </Typography>
-                  {/* {artists && artists.map((item) => (
+                <Grid item container spacing={1}>
+                  {artists && artists.map((item) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={item.id}>
-                      <ArtistTileCard id={item.id} />
+                      <UserTileCard handle={item.handle} />
                     </Grid>
-                  ))} */}
+                  ))}
                 </Grid>
                 <Grid item container justify="flex-end">
                   <Grid item>

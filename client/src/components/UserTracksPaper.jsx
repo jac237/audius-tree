@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -77,7 +77,7 @@ function ScrollTop(props) {
 
 const UserTracksPaper = ({ children, tracks }) => {
   const classes = useStyles();
-  const { value } = useState(0);
+  // const { value, setValue } = useState(0);
 
   return (
     <Paper className={classes.root} square>
@@ -86,7 +86,7 @@ const UserTracksPaper = ({ children, tracks }) => {
           <Paper square className={classes.paper}>
             <Tabs
               className={classes.tabs}
-              value={value}
+              value={false}
               textColor="inherit"
             >
               <Tab label="Tracks" id="back-to-tracks-anchor" disableFocusRipple disableRipple/>

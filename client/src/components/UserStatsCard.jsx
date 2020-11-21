@@ -43,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(12),
     height: theme.spacing(12),
   },
-  bio: {
-    color: '#CBCBCB'
-  },
   button: {
     padding: theme.spacing(2),
   },
@@ -58,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   handle: {
     display: 'inline-flex',
+    color: '#CBCBCB'
   },
   verified: {
     color: '#01CECE',
@@ -66,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#CBCBCB',
   },
   fontIcon: {
-    fontSize: 13,
+    fontSize: 15,
     overflow: 'visible',
   },
 }));
@@ -174,17 +172,17 @@ const UserStatsCard = ({ user }) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography className={classes.bio} variant="subtitle2" component="p" gutterBottom>
+              <Typography variant="subtitle2" component="p" gutterBottom>
                {user.bio}
               </Typography>
             </Grid>
             {user?.location && (
-              <Grid item container className={classes.location}>
+              <Grid item container className={classes.location} direction="row" alignItems="baseline">
                 <Grid item>
                   <Icon className="fas fa-map-marker-alt" classes={{ root: classes.fontIcon }}/>
                 </Grid>
                 <Grid item>
-                  <Typography color="inherit" variant="button" component="p">
+                  <Typography color="inherit" variant="subtitle2" component="p">
                     {user.location}
                   </Typography>
                 </Grid>

@@ -51,7 +51,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0.5, 0, 0.5, 0),
   },
   link: {
+    fontSize: 13,
     color: 'darkgray',
+    '& .fa-retweet': {
+      fontSize: 15,
+    },
     '&:hover .fa-play': {
       color: 'lightgray',
     },
@@ -67,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
   },
   fontIcon: {
     width: '1.5em',
-    fontSize: 13,
     overflow: 'visible',
   },
 }));
@@ -154,9 +157,9 @@ const SongCard = ({ track }) => {
               href={`https://audius.co/${track.user.handle}`}
               aria-label="number of plays"
             >
-              <Icon className="fas fa-play" classes={{ root: classes.fontIcon }} />
+              <Icon className="fas fa-play" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
-            <Typography variant="caption" color="inherit" display="inline">
+            <Typography variant="caption" style={{ color: 'darkgray' }} >
               {track.play_count}
             </Typography>
           </Grid>
@@ -166,9 +169,9 @@ const SongCard = ({ track }) => {
               aria-label="number of reposts"
               href={`https://audius.co/${track.user.handle}`}
             >
-              <Icon className="fas fa-retweet" classes={{ root: classes.fontIcon }} />
+              <Icon className="fas fa-retweet" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
-            <Typography variant="caption" color="inherit">
+            <Typography variant="caption" style={{ color: 'darkgray' }}>
               {track.repost_count}
             </Typography>
           </Grid>
@@ -178,9 +181,9 @@ const SongCard = ({ track }) => {
               aria-label="number of favorites"
               href={`https://audius.co/${track.user.handle}`}
             >
-              <Icon className="far fa-heart" classes={{ root: classes.fontIcon }} />
+              <Icon className="far fa-heart" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
-            <Typography variant="caption" color="inherit">
+            <Typography variant="caption" style={{ color: 'darkgray' }}>
               {track.favorite_count}
             </Typography>
           </Grid>
@@ -190,7 +193,7 @@ const SongCard = ({ track }) => {
               aria-label="share"
               href={`https://audius.co/${track.user.handle}`}
             >
-              <Icon className="fas fa-share" classes={{ root: classes.fontIcon }} />
+              <Icon className="fas fa-share" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
           </Grid>
         </Grid>
