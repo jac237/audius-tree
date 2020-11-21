@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     borderRadius: '8px',
     padding: theme.spacing(1, 0, 1, 0),
-    width: 100 + theme.spacing(2),
+    width: 125 + theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       width: 150 + theme.spacing(2)
     },
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   media: {
-    height: 100,
-    width: 100,
+    height: 125,
+    width: 125,
     [theme.breakpoints.up('sm')]: {
       height: 150,
       width: 150
@@ -66,7 +66,14 @@ const UserTileCard = ({ handle }) => {
   }, [handle]);
 
   return (
-    <Grid container className={classes.root} direction="column" alignItems="center" spacing={1}>
+    <Grid
+      className={classes.root}
+      container
+      direction="column"
+      alignItems="center"
+      spacing={1}
+      wrap="nowrap"
+    >
         <Grid item>
           <Link href={`/${handle}`}>
             <Avatar
