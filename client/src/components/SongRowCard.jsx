@@ -101,12 +101,14 @@ const SongCard = ({ track }) => {
 
   return (
     <Card className={classes.root} elevation={1} square>
-      <CardMedia
-        className={classes.img}
-        component="img"
-        src={track.artwork['150x150']}
-        title="Song Artwork"
-      />
+      <Link href={`https://audius.co/tracks/${track?.id}`}>
+        <CardMedia
+          className={classes.img}
+          component="img"
+          src={track.artwork['150x150']}
+          title="Song Artwork"
+        />
+      </Link>
       <CardContent classes={{ root: classes.content }}>
         <Grid container direction="column">
           <Grid item container direction="row" justify="space-between">
@@ -154,7 +156,7 @@ const SongCard = ({ track }) => {
           <Grid item>
             <Link
               classes={{ root: classes.link }}
-              href={`https://audius.co/${track.user.handle}`}
+              href={`https://audius.co/tracks/${track?.id}`}
               aria-label="number of plays"
             >
               <Icon className="fas fa-play" classes={{ root: classes.fontIcon }} fontSize="inherit" />
@@ -167,7 +169,7 @@ const SongCard = ({ track }) => {
             <Link
               classes={{ root: classes.link }}
               aria-label="number of reposts"
-              href={`https://audius.co/${track.user.handle}`}
+              href={`https://audius.co/tracks/${track?.id}`}
             >
               <Icon className="fas fa-retweet" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
@@ -179,7 +181,7 @@ const SongCard = ({ track }) => {
             <Link
               classes={{ root: classes.link }}
               aria-label="number of favorites"
-              href={`https://audius.co/${track.user.handle}`}
+              href={`https://audius.co/tracks/${track?.id}`}
             >
               <Icon className="far fa-heart" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
@@ -191,7 +193,7 @@ const SongCard = ({ track }) => {
             <Link
               classes={{ root: classes.link }}
               aria-label="share"
-              href={`https://audius.co/${track.user.handle}`}
+              href={`https://audius.co/tracks/${track?.id}`}
             >
               <Icon className="fas fa-share" classes={{ root: classes.fontIcon }} fontSize="inherit" />
             </Link>
