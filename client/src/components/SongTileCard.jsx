@@ -106,13 +106,16 @@ const SongTileCard = ({ trackData, id }) => {
 
   return (
     <Card className={classes.root} elevation={0}>
-      <Link href={`https://audius.co/tracks/${track?.id}`}>
-        <CardMedia
-          className={classes.media}
-          component="img"
-          src={cover}
-          title={track?.title}
-        />
+      <Link
+        target="_blank"
+        rel="noopener"
+        href={`https://audius.co/tracks/${track?.id}`}>
+          <CardMedia
+            className={classes.media}
+            component="img"
+            src={cover}
+            title={track?.title}
+          />
       </Link>
       <CardContent className={classes.content}>
         <Typography

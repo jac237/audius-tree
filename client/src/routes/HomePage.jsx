@@ -91,6 +91,7 @@ function ScrollTop(props) {
 
 const Home = (props) => {
   const classes = useStyles();
+  const randomRangeLimit = 25;
   const trendingSongTileLimit = 12;
   const featuredArtistTileLimit = 12;
   const featuredSongTileLimit = 12;
@@ -114,7 +115,9 @@ const Home = (props) => {
   useEffect(() => {
     getFavorites(userID)
       .then((result) => {
-        setFavorites(result.favorites.reverse().slice(0, featuredSongTileLimit));
+        const start = Math.floor(Math.random() * randomRangeLimit);
+        const end = start + featuredSongTileLimit;
+        setFavorites(result.favorites.reverse().slice(start, end));
       })
       .catch(() => {});
   }, [userID]);
