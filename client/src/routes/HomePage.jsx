@@ -91,7 +91,7 @@ function ScrollTop(props) {
 
 const Home = (props) => {
   const classes = useStyles();
-  const randomRangeLimit = 25;
+  const randomRangeLimit = 80;
   const trendingSongTileLimit = 12;
   const featuredArtistTileLimit = 12;
   const featuredSongTileLimit = 12;
@@ -277,7 +277,7 @@ const Home = (props) => {
               </Grid>
             </Grid>
             <ScrollTop {...props}>
-              <Fab color="default" size="small" aria-label="scroll back to top">
+              <Fab color="default" size="medium" aria-label="scroll back to top">
                 <KeyboardArrowUpIcon />
               </Fab>
             </ScrollTop>

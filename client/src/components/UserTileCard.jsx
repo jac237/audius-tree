@@ -72,7 +72,6 @@ const UserTileCard = ({ handle }) => {
       direction="column"
       alignItems="center"
       spacing={1}
-      wrap="nowrap"
     >
         <Grid item>
           <Link href={`/${handle}`}>
