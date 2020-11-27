@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     margin: 'auto',
     maxWidth: 550,
-    minWidth: 350,
+    minWidth: 320,
   },
   icon: {
     display: 'inline-flex',

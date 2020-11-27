@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     color: 'white',
     borderRadius: '8px',
-    width: 125 + theme.spacing(2),
+    width: 135 + theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       width: 175 + theme.spacing(3)
     },
@@ -27,16 +27,16 @@ const useStyles = makeStyles((theme) => ({
   media: {
     borderRadius: '10%',
     padding: theme.spacing(1),
-    height: 125,
-    width: 125,
+    height: 135,
+    width: 135,
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(1.5),
       height: 175,
-      width: 175
+      width: 175,
     },
     '&:hover': {
-      opacity: '0.8'
-    }
+      opacity: '0.8',
+    },
   },
   content: {
     padding: theme.spacing(0, 1, 0, 1),

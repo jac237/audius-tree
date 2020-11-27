@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#333232',
     borderRadius: '8px',
     maxWidth: 900,
-    minWidth: 320,
+    minWidth: 312,
     marginBottom: theme.spacing(1.5),
     padding: theme.spacing(0.5),
   },

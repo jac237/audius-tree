@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#121212',
   },
   content: {
-    paddingBottom: theme.spacing(4),
+    paddingBottom: theme.spacing(8),
   },
   header: {
     padding: theme.spacing(0, 1, 0, 1),
@@ -174,7 +174,7 @@ const Home = (props) => {
                     </Grid>
                   </Hidden>
                 </Grid>
-                <Grid item container spacing={1}>
+                <Grid item container>
                   {favorites && favorites.map((item) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={item.favorite_item_id}>
                       <SongTileCard id={item.favorite_item_id} />
@@ -214,7 +214,7 @@ const Home = (props) => {
                     </Grid>
                   </Hidden>
                 </Grid>
-                <Grid item container spacing={1}>
+                <Grid item container>
                   {artists && artists.map((item) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={item.id}>
                       <UserTileCard handle={item.handle} />
@@ -254,7 +254,7 @@ const Home = (props) => {
                     </Grid>
                   </Hidden>
                 </Grid>
-                <Grid item container spacing={1}>
+                <Grid item container>
                   {trending && trending.map((track) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={track.id}>
                       <SongTileCard trackData={track} />

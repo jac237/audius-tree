@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Hidden from "@material-ui/core/Hidden";
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -35,13 +34,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 320,
   },
   avatar: {
-    width: theme.spacing(15),
-    height: theme.spacing(15),
-  },
-  avatarSm: {
     margin: 'auto',
     width: theme.spacing(12),
     height: theme.spacing(12),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(15),
+      height: theme.spacing(15),
+    },
   },
   button: {
     padding: theme.spacing(2),
@@ -55,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
   },
   handle: {
     display: 'inline-flex',
+    color: '#CBCBCB'
+  },
+  label: {
+    fontSize: 13,
     color: '#CBCBCB'
   },
   verified: {
@@ -104,20 +107,11 @@ const UserStatsCard = ({ user }) => {
         <Grid container spacing={2} className={classes.grid}>
           <Grid item container direction="row" spacing={2}>
             <Grid item xs={4}>
-              <Hidden xsDown>
-                <Avatar
-                  className={classes.avatar}
-                  src={profile}
-                  aria-label="user profile photo"
-                />
-              </Hidden>
-              <Hidden smUp>
-                <Avatar
-                  className={classes.avatarSm}
-                  src={profile}
-                  aria-label="user profile photo"
-                />
-              </Hidden>
+              <Avatar
+                className={classes.avatar}
+                src={profile}
+                aria-label="user profile photo"
+              />
             </Grid>
             <Grid item xs={8} container direction="column">
               <Grid item container spacing={2} direction="row">
@@ -125,7 +119,7 @@ const UserStatsCard = ({ user }) => {
                   <Typography variant="inherit" component="h2" align="center">
                     {user.track_count}
                   </Typography>
-                  <Typography variant="inherit" component="p" align="center">
+                  <Typography variant="inherit" component="p" align="center" className={classes.label}>
                     tracks
                   </Typography>
                 </Grid>
@@ -133,7 +127,7 @@ const UserStatsCard = ({ user }) => {
                   <Typography variant="inherit" component="h2" align="center">
                     {user.follower_count}
                   </Typography>
-                  <Typography variant="inherit" component="p" align="center">
+                  <Typography variant="inherit" component="p" align="center" className={classes.label}>
                     followers
                   </Typography>
                 </Grid>
@@ -141,7 +135,7 @@ const UserStatsCard = ({ user }) => {
                   <Typography variant="inherit" component="h2" align="center">
                     {user.followee_count}
                   </Typography>
-                  <Typography variant="inherit" component="p" align="center">
+                  <Typography variant="inherit" component="p" align="center" className={classes.label}>
                     following
                   </Typography>
                 </Grid>

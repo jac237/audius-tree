@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 0, 1, 0),
     width: 125 + theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      width: 150 + theme.spacing(2)
+      width: 150 + theme.spacing(2),
     },
     '&:hover': {
       background: '#393939',
