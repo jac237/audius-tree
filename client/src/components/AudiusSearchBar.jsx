@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import Input from '@material-ui/core/Input';
+import InputBase from '@material-ui/core/InputBase';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -18,7 +18,7 @@ import { getUsersQuery } from '../api/audius.js';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(0, 1, 0, 1),
-    width: 175,
+    width: 185,
     [theme.breakpoints.up('sm')]: {
       width: 250,
     }
@@ -80,6 +80,7 @@ const AudiusSearchBar = () => {
         autoComplete
         includeInputInList
         filterSelectedOptions
+        noOptionsText="JSTJR, RayBurger, ..."
         options={options}
         value={value}
         loading={loading}
@@ -92,7 +93,7 @@ const AudiusSearchBar = () => {
         }}
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
-            <Input
+            <InputBase
               {...params.inputProps}
               label="Search Artists..."
               placeholder="Search Artists..."

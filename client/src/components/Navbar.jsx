@@ -20,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#303030',
   },
   logo: {
-    height: 30,
-    marginRight: theme.spacing(1),
+    height: 20,
   },
 }));
 
@@ -32,7 +31,7 @@ const Navbar = () => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.nav}>
         <Container>
-          <Toolbar>
+          <Toolbar variant="dense">
             <Grid container direction="row" justify="space-between" alignItems="center">
               <Grid item>
                 <a href="/">
@@ -55,7 +54,7 @@ const Navbar = () => {
                     color="inherit" 
                     size="small"
                   >
-                    <GitHubIcon fontSize="large"/>
+                    <GitHubIcon fontSize="default"/>
                   </IconButton>
                 </Hidden>
               </Grid>

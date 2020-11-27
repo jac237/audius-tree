@@ -86,7 +86,7 @@ const UserTracksPaper = ({ children, tracks }) => {
           <Paper square className={classes.paper}>
             <Tabs
               className={classes.tabs}
-              value={false}
+              value={0}
               textColor="inherit"
             >
               <Tab label="Tracks" id="back-to-tracks-anchor" disableFocusRipple disableRipple/>
