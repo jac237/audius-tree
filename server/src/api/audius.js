@@ -69,6 +69,11 @@ const getTrendingTracks = async (genre, time) => {
   return json.data;
 };
 
+const getTrackSource = async (trackId) => {
+  const host = await selectHost();
+  return `${host}/v1/tracks/${trackId}/stream`;
+};
+
 module.exports = {
   getUsersQuery,
   getUserByHandle,
@@ -76,4 +81,5 @@ module.exports = {
   getFavoritesById,
   getTrackById,
   getTrendingTracks,
+  getTrackSource,
 };

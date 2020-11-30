@@ -14,6 +14,7 @@ const {
   getFavoritesById,
   getTrackById,
   getTrendingTracks,
+  getTrackSource,
 } = require('./api/audius');
 
 const app = express();
@@ -115,6 +116,23 @@ app.use('/tracks/trending', async (req, res) => {
 });
 
 // Get TRACK by ID
+app.use('/tracks/:id/stream', async (req, res) => {
+  // console.log('Tracks Parameter: ', req.params);
+  let error = false;
+  const source = await getTrackSource(req.params.id)
+    .then((item) => item)
+    .catch(() => {
+      error = true;
+    });
+
+  res.json({
+    message: 'Streamable Track Source by ID',
+    params: req.params,
+    source,
+    error,
+  });
+});
+
 app.use('/tracks/:id', async (req, res) => {
   // console.log('Tracks Parameter: ', req.params);
   let error = false;
