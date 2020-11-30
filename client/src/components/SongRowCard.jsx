@@ -110,7 +110,11 @@ const SongRowCard = (props) => {
         component="img"
         src={track.artwork['150x150']}
         title="Song Artwork"
-        onClick={() => setCurrentSong(track)}
+        onClick={() => {
+          if (track) {
+            setCurrentSong(track);
+          }
+        }}
       />
       <CardContent classes={{ root: classes.content }}>
         <Grid container direction="column">

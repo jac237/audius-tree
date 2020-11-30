@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -108,11 +108,11 @@ const Home = (props) => {
   
   const [currentSong, setCurrentSong] = useState(null);
   const [trackSource, setTrackSource] = useState(null);
-  
+
   const [favorites, setFavorites] = useState([]);
   const [trending, setTrending] = useState([]);
   const [alert, setAlert] = useState(true);
-  
+
   useEffect(() => {
     getTrending(trendingGenre, trendingTime)
       .then((result) => {
@@ -133,7 +133,7 @@ const Home = (props) => {
   }, [userID]);
   
   useEffect(() => {
-    if (currentSong) {  
+    if (currentSong?.id) {
       getTrackSource(currentSong.id)
         .then((result) => {
           setTrackSource(result.source);

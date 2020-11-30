@@ -113,7 +113,11 @@ const SongTileCard = (props) => {
         component="img"
         src={cover}
         title={track?.title}
-        onClick={() => setCurrentSong(track)}
+        onClick={() => {
+          if (track) {
+            setCurrentSong(track);
+          }
+        }}
       />
       <CardContent className={classes.content}>
         <Typography

@@ -45,7 +45,7 @@ const MusicBar = (props) => {
   }, [trackSource]);
   
   useEffect(() => {
-    if (currentSong) {
+    if (currentSong?.artwork) {
       console.log('current song', currentSong);
       const cover = currentSong?.artwork['150x150'];
       setMedia(cover);
@@ -75,11 +75,14 @@ const MusicBar = (props) => {
           <Grid item container xs={7} justify="center" alignItems="center" wrap="nowrap">
             <Grid item>
               <audio
-                style={{fontSize: 10, height: 34, width: '50vw'}}
+                style={{ height: 34, width: '50vw' }}
                 ref={audioEl}
+                preload="none"
                 controls
+                autoPlay
               >
                 <source src={trackSource} type="audio/mpeg"/>
+                Your browser does not support the audio element.
               </audio>
             </Grid> 
           </Grid>
