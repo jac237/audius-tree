@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -55,39 +56,39 @@ const MusicBar = (props) => {
   return (
     <AppBar position="fixed" className={classes.root}>
       <Toolbar>
-        <Grid container justify="space-between" alignItems="center">
+        <Container>
+          <Grid container justify="space-between" alignItems="center">
+            <Grid item container xs={5} spacing={1} alignContent="center" wrap="nowrap">
+              <Grid item>
+                <Avatar alt="Track Artwork" src={media} variant="square" className={classes.media}/>
+              </Grid>
 
-          <Grid item container xs={5} spacing={1} alignContent="center" wrap="nowrap">
-            <Grid item>
-              <Avatar alt="Track Artwork" src={media} variant="square" className={classes.media}/>
+              <Grid item zeroMinWidth>
+                <Typography variant="inherit" component="h5" noWrap>
+                  {currentSong?.title}
+                </Typography>
+                <Typography variant="caption" component="p" className={classes.name} noWrap>
+                  {currentSong?.user?.name}
+                </Typography>
+              </Grid> 
             </Grid>
-
-            <Grid item zeroMinWidth>
-              <Typography variant="inherit" component="h5" noWrap>
-                {currentSong?.title}
-              </Typography>
-              <Typography variant="caption" component="p" className={classes.name} noWrap>
-                {currentSong?.user?.name}
-              </Typography>
-            </Grid> 
+            
+            <Grid item container xs={7} justify="center" alignItems="center" wrap="nowrap">
+              <Grid item>
+                <audio
+                  style={{ height: 34, width: '50vw' }}
+                  ref={audioEl}
+                  preload="auto"
+                  controls
+                  autoPlay
+                >
+                  <source src={trackSource} type="audio/mpeg"/>
+                  Your browser does not support the audio element.
+                </audio>
+              </Grid> 
+            </Grid>
           </Grid>
-          
-          <Grid item container xs={7} justify="center" alignItems="center" wrap="nowrap">
-            <Grid item>
-              <audio
-                style={{ height: 34, width: '50vw' }}
-                ref={audioEl}
-                preload="none"
-                controls
-                autoPlay
-              >
-                <source src={trackSource} type="audio/mpeg"/>
-                Your browser does not support the audio element.
-              </audio>
-            </Grid> 
-          </Grid>
-
-        </Grid>
+        </Container>
       </Toolbar>
     </AppBar>
   );
