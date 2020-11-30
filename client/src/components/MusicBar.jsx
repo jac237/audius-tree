@@ -40,19 +40,11 @@ const MusicBar = (props) => {
   const { currentSong, trackSource } = props;
   const [media, setMedia] = useState('https://i.imgur.com/iajv7J1.png');
   
-  // useEffect(() => {
-  //   console.log('current track source:', trackSource);
-  //   audioEl.current.load();
-  // }, [trackSource]);
-  
   useEffect(() => {
-    console.log('2nd function: ', trackSource);
-    // audioEl.current.load();
-    audioEl.current.addEventListener("canplaythrough", function () {
-      audioEl.current.play();
-    }, false);
+    console.log('current track source:', trackSource);
+    audioEl.current.load();
   }, [trackSource]);
-
+  
   useEffect(() => {
     if (currentSong?.artwork) {
       // console.log('current song', currentSong);
