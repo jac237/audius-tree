@@ -76,12 +76,10 @@ const MusicBar = (props) => {
             <Grid item>
               <audio
                 style={{fontSize: 10, height: 34, width: '50vw'}}
-                src={trackSource}
                 ref={audioEl}
                 controls
-                autoPlay
               >
-                {/* <source src={trackSource} type="audio/mpeg"/> */}
+                <source src={trackSource} type="audio/mpeg"/>
               </audio>
             </Grid> 
           </Grid>
