@@ -78,11 +78,12 @@ const MusicBar = (props) => {
                 <audio
                   style={{ height: 34, width: '50vw' }}
                   ref={audioEl}
+                  src={trackSource}
+                  type="audio/mpeg"
                   preload="auto"
                   controls
                   autoPlay
                 >
-                  <source src={trackSource} type="audio/mpeg"/>
                   Your browser does not support the audio element.
                 </audio>
               </Grid> 
