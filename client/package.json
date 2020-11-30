@@ -15,7 +15,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4"
   },
-  "keywords": ["react", "audius"],
+  "keywords": [
+    "react",
+    "audius"
+  ],
   "author": "Jessie Cruz",
   "license": "MIT",
   "scripts": {

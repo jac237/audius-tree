@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     color: 'white',
     backgroundColor: '#121212',
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(10),
   },
   content: {
     margin: 'auto',
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   topRoot: {
     position: 'fixed',
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(11),
     right: theme.spacing(2),
   },
   paper: {
@@ -75,8 +75,9 @@ function ScrollTop(props) {
   );
 };
 
-const UserTracksPaper = ({ children, tracks }) => {
+const UserTracksPaper = (props) => {
   const classes = useStyles();
+  const { children, tracks, setCurrentSong } = props;
   // const { value, setValue } = useState(0);
 
   return (
@@ -93,10 +94,10 @@ const UserTracksPaper = ({ children, tracks }) => {
             </Tabs>
           </Paper>
           {tracks && tracks.map((item) => (
-            <SongRowCard key={item.id} track={item} />
+            <SongRowCard key={item.id} track={item} setCurrentSong={setCurrentSong}/>
           ))}
           <ScrollTop {...children}>
-            <Fab color="default" size="small" aria-label="scroll back to top">
+            <Fab color="default" size="medium" aria-label="scroll back to top">
               <KeyboardArrowUpIcon />
             </Fab>
           </ScrollTop>
@@ -105,12 +106,12 @@ const UserTracksPaper = ({ children, tracks }) => {
       {tracks.length === 0 && (
         <Typography
           className={classes.empty}
-          color="error"
+          color="inherit"
           variant="inherit"
           component="h4"
           align="center"
         >
-          No tracks yet...
+          Uh Oh! This user has no tracks... Come back later!
         </Typography>
       )}
     </Paper>

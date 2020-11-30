@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '&:hover': {
       opacity: '0.8',
+      cursor: 'pointer',
     },
   },
   content: {
@@ -76,8 +77,9 @@ const emptyTrack = {
   },
 };
 
-const SongTileCard = ({ trackData, id }) => {
+const SongTileCard = (props) => {
   const classes = useStyles();
+  const { trackData, id, setCurrentSong } = props;
   const [name, setName] = useState('');
   const [track, setTrack] = useState(emptyTrack);
   const [cover, setCover] = useState(
@@ -95,7 +97,7 @@ const SongTileCard = ({ trackData, id }) => {
         .catch(() => {});
     }
   }, [id]);
-
+  
   useEffect(() => {
     if (trackData) {
       setName(trackData.user.name)
@@ -106,17 +108,13 @@ const SongTileCard = ({ trackData, id }) => {
 
   return (
     <Card className={classes.root} elevation={0}>
-      <Link
-        target="_blank"
-        rel="noopener"
-        href={`https://audius.co/tracks/${track?.id}`}>
-          <CardMedia
-            className={classes.media}
-            component="img"
-            src={cover}
-            title={track?.title}
-          />
-      </Link>
+      <CardMedia
+        className={classes.media}
+        component="img"
+        src={cover}
+        title={track?.title}
+        onClick={() => setCurrentSong(track)}
+      />
       <CardContent className={classes.content}>
         <Typography
           className={classes.title}

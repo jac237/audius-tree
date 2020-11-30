@@ -25,10 +25,16 @@ const getTrending = async (genre, time) => {
   return response.json();
 };
 
+const getTrackSource = async (id) => {
+  const response = await fetch(`${API_URL}/tracks/${id}/stream`);
+  return response.json();
+};
+
 export {
   getUserInfo,
   getUsersQuery,
   getFavorites,
   getTrack,
   getTrending,
+  getTrackSource,
 };

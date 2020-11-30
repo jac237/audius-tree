@@ -39,7 +39,7 @@ const ErrorCard = () => {
         <br />
         <Button
           variant="contained"
-          size="link"
+          size="small"
           color="primary"
           href="/"
           disableElevation

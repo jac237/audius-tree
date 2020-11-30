@@ -6,7 +6,7 @@ import LoadingGrid from './components/LoadingGrid';
 
 // import Main from './components/UserPage';
 const HomePage = lazy(() => import('./routes/HomePage'));
-const UserPage = lazy(() => import('./routes/UserHomePage'));
+const UserPage = lazy(() => import('./routes/UserPage'));
 
 function App() {
   return (

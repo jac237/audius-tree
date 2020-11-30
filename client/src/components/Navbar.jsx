@@ -47,16 +47,14 @@ const Navbar = () => {
                 <AudiusSearchBar />
               </Grid>
               <Grid item className="GitHub Button">
-                <Hidden only="xs">
-                  <IconButton
-                    href="https://github.com/jac237"
-                    component="a" 
-                    color="inherit" 
-                    size="small"
-                  >
-                    <GitHubIcon fontSize="default"/>
-                  </IconButton>
-                </Hidden>
+                <IconButton
+                  href="https://github.com/jac237"
+                  component="a" 
+                  color="inherit" 
+                  size="small"
+                >
+                  <GitHubIcon fontSize="default"/>
+                </IconButton>
               </Grid>
             </Grid>
           </Toolbar>

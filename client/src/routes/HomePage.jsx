@@ -13,15 +13,16 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
 import Chip from '@material-ui/core/Chip';
-import Navbar from '../components/Navbar';
-import SongTileCard from '../components/SongTileCard';
-import UserTileCard from '../components/UserTileCard';
-import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
+import Navbar from '../components/Navbar';
+import SongTileCard from '../components/SongTileCard';
+import UserTileCard from '../components/UserTileCard';
+import MusicBar from '../components/MusicBar';
+import Alert from '@material-ui/lab/Alert';
 
-import { getFavorites, getTrending } from '../api/audius';
+import { getFavorites, getTrending, getTrackSource } from '../api/audius';
 import featuredArtists from '../components/featuredArtists';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,11 +31,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#121212',
   },
   content: {
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(11),
   },
   header: {
-    padding: theme.spacing(0, 1, 0, 1),
-    margin: theme.spacing(3, 0, 3, 0),
+    margin: theme.spacing(2, 0, 0, 0),
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  caption: {
+    color: 'darkgray',
+    margin: theme.spacing(0, 0, 1, 0),
   },
   infoLink: {
     color: 'darkgray',
@@ -49,16 +55,16 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0.5),
     },
     '& .MuiChip-root': {
-      fontSize: 12,
-      fontWeight: 600,
+      fontSize: 11,
+      fontWeight: 550,
       color: 'white',
       backgroundColor: '#CC0000',
-      height: 28,
+      height: 24,
     }
   },
   scrollRoot: {
     position: 'fixed',
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(11),
     right: theme.spacing(2),
   },
 }));
@@ -100,6 +106,9 @@ const Home = (props) => {
   const trendingTime = 'week';
   const artists = featuredArtists.slice(0, featuredArtistTileLimit);
   
+  const [currentSong, setCurrentSong] = useState(null);
+  const [trackSource, setTrackSource] = useState(null);
+  
   const [favorites, setFavorites] = useState([]);
   const [trending, setTrending] = useState([]);
   const [alert, setAlert] = useState(true);
@@ -110,17 +119,27 @@ const Home = (props) => {
         setTrending(result.trending.reverse().slice(0, trendingSongTileLimit));
       })
       .catch(() => {});
-  }, [trendingGenre, trendingTime]);
-
-  useEffect(() => {
-    getFavorites(userID)
+    }, [trendingGenre, trendingTime]);
+    
+    useEffect(() => {
+      getFavorites(userID)
       .then((result) => {
         const start = Math.floor(Math.random() * randomRangeLimit);
         const end = start + featuredSongTileLimit;
-        setFavorites(result.favorites.reverse().slice(start, end));
+        const newFavorites = result.favorites.reverse().slice(start, end)
+        setFavorites(newFavorites);
       })
       .catch(() => {});
   }, [userID]);
+  
+  useEffect(() => {
+    if (currentSong) {  
+      getTrackSource(currentSong.id)
+        .then((result) => {
+          setTrackSource(result.source);
+        });
+    }
+  }, [currentSong]);
 
   return (
     <Router>
@@ -147,7 +166,7 @@ const Home = (props) => {
                       </IconButton>
                     }
                   >
-                    Made with <span role="img" aria-label="heart">❤️</span>using
+                    Made with <span role="img" aria-label="heart">❤️</span> using
                     the <Link color="primary" href="https://audiusproject.github.io/api-docs/">
                     Audius API</Link>. Follow me on <Link color="primary" href="https://audius.co/jessie">
                     Audius</Link> for more favorites!
@@ -159,12 +178,18 @@ const Home = (props) => {
                   <Grid item>
                     <Typography
                       className={classes.header}
-                      align="center"
                       variant="inherit"
-                      component="h3"
+                      component="p"
                       id="back-to-suggested-anchor"
                     >
                       Featured Tracks
+                    </Typography>
+                    <Typography
+                      className={classes.caption}
+                      variant="caption"
+                      component="p"
+                    >
+                      Must listen-to  tracks on Audius. Don't miss out!
                     </Typography>
                   </Grid>
                   <Hidden only="xs">
@@ -177,7 +202,7 @@ const Home = (props) => {
                 <Grid item container>
                   {favorites && favorites.map((item) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={item.favorite_item_id}>
-                      <SongTileCard id={item.favorite_item_id} />
+                      <SongTileCard id={item.favorite_item_id} setCurrentSong={setCurrentSong} />
                     </Grid>
                   ))}
                 </Grid>
@@ -200,11 +225,17 @@ const Home = (props) => {
                   <Grid item>
                     <Typography
                       className={classes.header}
-                      align="center"
                       variant="inherit"
-                      component="h3"
+                      component="p"
                     >
                       Featured Artists
+                    </Typography>
+                    <Typography
+                      className={classes.caption}
+                      variant="caption"
+                      component="p"
+                    >
+                      Artists that you will love
                     </Typography>
                   </Grid>
                   <Hidden only="xs">
@@ -240,11 +271,17 @@ const Home = (props) => {
                   <Grid item>
                     <Typography
                       className={classes.header}
-                      align="center"
                       variant="inherit"
-                      component="h3"
+                      component="p"
                     >
                       Trending on Audius
+                    </Typography>
+                    <Typography
+                      className={classes.caption}
+                      variant="caption"
+                      component="p"
+                    >
+                      New & Hot on Audius
                     </Typography>
                   </Grid>
                   <Hidden only="xs">
@@ -257,7 +294,7 @@ const Home = (props) => {
                 <Grid item container>
                   {trending && trending.map((track) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={track.id}>
-                      <SongTileCard trackData={track} />
+                      <SongTileCard trackData={track} setCurrentSong={setCurrentSong} />
                     </Grid>
                   ))}
                 </Grid>
@@ -283,7 +320,10 @@ const Home = (props) => {
             </ScrollTop>
           </div>
         </Container>
-        {/* Music Player Appbar (TBD)  */}
+        <MusicBar
+          currentSong={currentSong}
+          trackSource={trackSource}
+        />
       </div>
     </Router>
   );

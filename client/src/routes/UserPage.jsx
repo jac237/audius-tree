@@ -3,13 +3,17 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import UserInfoSections from '../components/UserInfoSections';
 import ErrorImageCard from '../components/ErrorImageCard';
+import MusicBar from '../components/MusicBar';
 // Audius API
-import { getUserInfo } from '../api/audius';
+import { getUserInfo, getTrackSource } from '../api/audius';
 
 const UserPage = ({ match }) => {
   const [error, setError] = useState(false);
   const [user, setUser] = useState(null);
   const [tracks, setTracks] = useState(null);
+
+  const [currentSong, setCurrentSong] = useState(null);
+  const [trackSource, setTrackSource] = useState(null);
 
   useEffect(() => {
     getUserInfo(match.params.handle)
@@ -21,17 +25,29 @@ const UserPage = ({ match }) => {
       .catch(() => {});
   }, [match]);
 
+  useEffect(() => {
+    if (currentSong) {  
+      getTrackSource(currentSong.id)
+        .then((result) => {
+          setTrackSource(result.source);
+        });
+    }
+  }, [currentSong]);
+
   return (
     <Router>
       <div className="content">
         <div className="content__body">
           <Navbar />
           {!error
-            ? <UserInfoSections user={user} tracks={tracks} />
+            ? <UserInfoSections user={user} tracks={tracks} setCurrentSong={setCurrentSong} />
             : <ErrorImageCard />
           }
+          <MusicBar
+            currentSong={currentSong}
+            trackSource={trackSource}
+          />
         </div>
-        {/* Music Player (TBD) */}
       </div>
     </Router>
   );

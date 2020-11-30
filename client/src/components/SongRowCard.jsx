@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     width: 90,
     height: 90,
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   handle: {
     display: 'inline-flex',
@@ -75,8 +78,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SongCard = ({ track }) => {
+const SongRowCard = (props) => {
   const classes = useStyles();
+  const { track, setCurrentSong } = props;
   const [time, setTime] = useState('');
   
   useEffect(() => {
@@ -101,14 +105,13 @@ const SongCard = ({ track }) => {
 
   return (
     <Card className={classes.root} elevation={1} square>
-      <Link href={`https://audius.co/tracks/${track?.id}`}>
-        <CardMedia
-          className={classes.img}
-          component="img"
-          src={track.artwork['150x150']}
-          title="Song Artwork"
-        />
-      </Link>
+      <CardMedia
+        className={classes.img}
+        component="img"
+        src={track.artwork['150x150']}
+        title="Song Artwork"
+        onClick={() => setCurrentSong(track)}
+      />
       <CardContent classes={{ root: classes.content }}>
         <Grid container direction="column">
           <Grid item container direction="row" justify="space-between">
@@ -204,4 +207,4 @@ const SongCard = ({ track }) => {
   );
 };
 
-export default SongCard;
+export default SongRowCard;
