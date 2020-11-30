@@ -108,7 +108,7 @@ const SongRowCard = (props) => {
       <CardMedia
         className={classes.img}
         component="img"
-        src={track.artwork['150x150']}
+        src={track?.artwork ? track?.artwork['150x150'] : null}
         title="Song Artwork"
         onClick={() => {
           if (track) {
