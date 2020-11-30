@@ -40,13 +40,13 @@ const MusicBar = (props) => {
   const [media, setMedia] = useState('https://i.imgur.com/iajv7J1.png');
   
   useEffect(() => {
-    console.log('loading track source:', trackSource);
+    console.log('current track source:', trackSource);
     audioEl.current.load();
   }, [trackSource]);
   
   useEffect(() => {
     if (currentSong) {
-      console.log('loading song', currentSong);
+      console.log('current song', currentSong);
       const cover = currentSong?.artwork['150x150'];
       setMedia(cover);
     }
@@ -74,8 +74,14 @@ const MusicBar = (props) => {
           
           <Grid item container xs={7} justify="center" alignItems="center" wrap="nowrap">
             <Grid item>
-              <audio ref={audioEl} controls autoPlay style={{fontSize: 10, height: 34, width: '50vw'}}>
-                <source src={trackSource} type="audio/mpeg"/>
+              <audio
+                style={{fontSize: 10, height: 34, width: '50vw'}}
+                src={trackSource}
+                ref={audioEl}
+                controls
+                autoPlay
+              >
+                {/* <source src={trackSource} type="audio/mpeg"/> */}
               </audio>
             </Grid> 
           </Grid>

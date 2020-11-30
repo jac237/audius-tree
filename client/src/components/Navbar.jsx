@@ -48,6 +48,8 @@ const Navbar = () => {
               </Grid>
               <Grid item className="GitHub Button">
                 <IconButton
+                  target="_blank"
+                  rel="noopener"
                   href="https://github.com/jac237"
                   component="a" 
                   color="inherit" 
