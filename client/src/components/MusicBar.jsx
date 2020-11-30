@@ -40,14 +40,22 @@ const MusicBar = (props) => {
   const { currentSong, trackSource } = props;
   const [media, setMedia] = useState('https://i.imgur.com/iajv7J1.png');
   
-  useEffect(() => {
-    console.log('current track source:', trackSource);
-    audioEl.current.load();
-  }, [trackSource]);
+  // useEffect(() => {
+  //   console.log('current track source:', trackSource);
+  //   audioEl.current.load();
+  // }, [trackSource]);
   
   useEffect(() => {
+    console.log('2nd function: ', trackSource);
+    // audioEl.current.load();
+    audioEl.current.addEventListener("canplaythrough", function () {
+      audioEl.current.play();
+    }, false);
+  }, [trackSource]);
+
+  useEffect(() => {
     if (currentSong?.artwork) {
-      console.log('current song', currentSong);
+      // console.log('current song', currentSong);
       const cover = currentSong?.artwork['150x150'];
       setMedia(cover);
     }
@@ -79,6 +87,7 @@ const MusicBar = (props) => {
                   style={{ height: 34, width: '50vw' }}
                   ref={audioEl}
                   src={trackSource}
+                  crossOrigin="anonymous"
                   type="audio/mpeg"
                   preload="auto"
                   controls
