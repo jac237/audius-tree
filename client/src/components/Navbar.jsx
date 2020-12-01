@@ -50,7 +50,7 @@ const Navbar = () => {
                 <IconButton
                   target="_blank"
                   rel="noopener"
-                  href="https://github.com/jac237"
+                  href="https://github.com/jac237/audius-tree"
                   component="a" 
                   color="inherit" 
                   size="small"
