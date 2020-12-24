@@ -201,7 +201,7 @@ const Home = (props) => {
                 </Grid>
                 <Grid item container>
                   {favorites && favorites.map((item) => (
-                    <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={item.favorite_item_id}>
+                    <Grid item xs={6} sm={4} md={3} lg={2} key={item.favorite_item_id}>
                       <SongTileCard id={item.favorite_item_id} setCurrentSong={setCurrentSong} />
                     </Grid>
                   ))}
@@ -247,7 +247,7 @@ const Home = (props) => {
                 </Grid>
                 <Grid item container>
                   {artists && artists.map((item) => (
-                    <Grid item xs={6} sm={4} md={3} lg={2} xl="auto" key={item.id}>
+                    <Grid item xs={6} sm={4} md={3} lg={2} key={item.id}>
                       <UserTileCard handle={item.handle} />
                     </Grid>
                   ))}
