@@ -80,7 +80,7 @@ const AudiusSearchBar = () => {
         autoComplete
         includeInputInList
         filterSelectedOptions
-        noOptionsText="JSTJR/RayBurger/..."
+        noOptionsText="jstjr, rayburger, groupchat, ..."
         options={options}
         value={value}
         loading={loading}
