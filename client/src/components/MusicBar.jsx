@@ -47,7 +47,6 @@ const MusicBar = (props) => {
 
   useEffect(() => {
     if (currentSong?.artwork) {
-      // console.log('current song', currentSong);
       const cover = currentSong?.artwork.x150;
       setMedia(cover);
     }
