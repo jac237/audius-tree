@@ -1,0 +1,25 @@
+{
+  "name": "audiustree-graphql-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Jessie Cruz",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.19.2",
+    "apollo-server-express": "^2.19.2",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "helmet": "^4.4.1",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1"
+  }
+}
