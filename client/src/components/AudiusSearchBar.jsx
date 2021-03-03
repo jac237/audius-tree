@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
+import { useLazyQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -12,8 +13,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Avatar from '@material-ui/core/Avatar';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { getUsersQuery } from '../api/audius.js';
+import { USER_SEARCH } from '../graphql';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     width: 185,
     [theme.breakpoints.up('sm')]: {
       width: 250,
-    }
+    },
   },
 }));
 
@@ -31,44 +31,32 @@ const AudiusSearchBar = () => {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  // const [active, setActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [getQuery, { loading, error, data }] = useLazyQuery(USER_SEARCH);
 
-  // Get Users by Query
   useEffect(() => {
-    let active = true
-
     if (inputValue === '') {
       setOptions(value ? [value] : []);
-      return undefined;
+      return;
     }
 
-    setLoading(true);
-    getUsersQuery(inputValue)
-      .then((result) => {
-        if (active) {
-          let newOptions = [];
-
-          if (value) {
-            newOptions = [value];
-          }
-
-          const max = (result.users.length < resultLimit ? result.users.length : resultLimit);
-          
-          if (result) {
-            newOptions = [...newOptions, ...result.users.slice(0, max)];
-          }
-
-          setOptions(newOptions);
-          setLoading(false);
-        }
-      })
-      .catch(() => {});
-      
-    return () => {
-      active = false;
-    }; 
+    getQuery({ variables: { query: inputValue } });
+    if (loading) {
+      setIsLoading(true);
+    }
   }, [value, inputValue]);
+
+  useEffect(() => {
+    if (data?.getUsersBySearch) {
+      const result = data.getUsersBySearch;
+      console.log(result);
+      let newOptions = [];
+      const max = result.length < resultLimit ? result.length : resultLimit;
+      newOptions = [...newOptions, ...result.slice(0, max)];
+      setOptions(newOptions);
+      setIsLoading(false);
+    }
+  }, [data]);
 
   return (
     <Paper className={classes.root}>
@@ -83,61 +71,74 @@ const AudiusSearchBar = () => {
         noOptionsText="jstjr, rayburger, groupchat, ..."
         options={options}
         value={value}
-        loading={loading}
-        onChange={(_, newValue) => {
+        loading={isLoading}
+        onChange={(_event, newValue) => {
           setOptions(newValue ? [newValue, ...options] : options);
           setValue(newValue);
         }}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(_event, newInputValue) => {
           setInputValue(newInputValue);
         }}
         renderInput={(params) => (
           <div ref={params.InputProps.ref}>
             <InputBase
               {...params.inputProps}
-              label="Search Artists..."
-              placeholder="Search Artists..."
+              label="Search artists..."
+              placeholder="Search artists..."
               variant="outlined"
-              startAdornment= {(
+              startAdornment={
                 <InputAdornment position="start">
                   <SearchIcon color="action" />
                 </InputAdornment>
-              )}
-              endAdornment= {(
+              }
+              endAdornment={
                 <React.Fragment>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null }
+                  {isLoading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                 </React.Fragment>
-              )}
+              }
               fullWidth
             />
           </div>
         )}
-        renderOption={(option) => {
-          const photo = (option.profile_picture ? option.profile_picture['150x150'] : '');
+        renderOption={(user) => {
+          const photo = user.profile_picture
+            ? user.profile_picture.x150
+            : 'https://i.imgur.com/grJvvdx.png';
 
           return (
-            <Grid container spacing={2} direction="row" wrap="nowrap">
-              <Grid item>
-                <Avatar alt={option.name} src={photo} />
-              </Grid>
-              <Link
-                color="inherit"
-                underline="none"
-                href={`/${option.handle}`}>
+            <Link color="inherit" underline="none" href={`/${user.handle}`}>
+              <Grid container spacing={2} direction="row" wrap="nowrap">
                 <Grid item>
-                  <Typography style={{ fontWeight: 'bold'}} variant="subtitle2" noWrap>
-                    {option.name}
+                  <Avatar alt={user.name} src={photo} />
+                </Grid>
+                <Grid item>
+                  <Typography
+                    style={{ fontWeight: 'bold' }}
+                    variant="subtitle2"
+                    noWrap
+                  >
+                    {user.name}
                   </Typography>
-                  <Typography style={{ display: 'inline-flex' }} variant="body2" color="textSecondary" noWrap>
-                    @{option.handle}
-                    {option?.is_verified && 
-                      <VerifiedIcon style={{ color: '#01CECE' }} fontSize="small"/>
-                    }
+                  <Typography
+                    style={{ display: 'inline-flex' }}
+                    variant="body2"
+                    color="textSecondary"
+                    noWrap
+                  >
+                    @{user.handle}
+                    {user?.is_verified && (
+                      <VerifiedIcon
+                        style={{ color: '#01CECE', marginLeft: 2 }}
+                        fontSize="small"
+                      />
+                    )}
                   </Typography>
                 </Grid>
-              </Link>
-            </Grid>
-          )
+              </Grid>
+            </Link>
+          );
         }}
       />
     </Paper>
