@@ -74,28 +74,9 @@ const useStyles = makeStyles((theme) => ({
 
 const UserStatsCard = ({ user }) => {
   const classes = useStyles();
-  // https://imgur.com/user/audiustree
-  const defaultCover = 'https://i.imgur.com/H4neT3q.png';
-  const defaultProfile = 'https://i.imgur.com/grJvvdx.png';
-  // const [cover, setCover] = useState(defaultCover);
-  // const [profile, setProfile] = useState(defaultProfile);
 
-  // useEffect(() => {
-  //   const getCoverPhoto = () => {
-  //     if (user?.cover_photo) {
-  //       setCover(user?.cover_photo.x2000);
-  //     }
-  //   };
-
-  //   const getProfilePhoto = () => {
-  //     if (user?.profile_picture) {
-  //       setProfile(user?.profile_picture.x150);
-  //     }
-  //   };
-
-  //   getCoverPhoto();
-  //   getProfilePhoto();
-  // }, [user]);
+  // const defaultCover = 'https://i.imgur.com/H4neT3q.png';
+  // const defaultProfile = 'https://i.imgur.com/grJvvdx.png';
 
   return (
     <Card className={classes.root} square>
