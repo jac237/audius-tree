@@ -39,16 +39,16 @@ const MusicBar = (props) => {
   const audioEl = useRef(null);
   const { currentSong, trackSource } = props;
   const [media, setMedia] = useState('https://i.imgur.com/iajv7J1.png');
-  
+
   useEffect(() => {
     console.log('current track source:', trackSource);
     audioEl.current.load();
   }, [trackSource]);
-  
+
   useEffect(() => {
     if (currentSong?.artwork) {
       // console.log('current song', currentSong);
-      const cover = currentSong?.artwork['150x150'];
+      const cover = currentSong?.artwork.x150;
       setMedia(cover);
     }
   }, [currentSong]);
@@ -58,22 +58,46 @@ const MusicBar = (props) => {
       <Toolbar>
         <Container>
           <Grid container justify="space-between" alignItems="center">
-            <Grid item container xs={5} spacing={1} alignContent="center" wrap="nowrap">
+            <Grid
+              item
+              container
+              xs={5}
+              spacing={1}
+              alignContent="center"
+              wrap="nowrap"
+            >
               <Grid item>
-                <Avatar alt="Track Artwork" src={media} variant="square" className={classes.media}/>
+                <Avatar
+                  alt="Track Artwork"
+                  src={media}
+                  variant="square"
+                  className={classes.media}
+                />
               </Grid>
 
               <Grid item zeroMinWidth>
                 <Typography variant="inherit" component="h5" noWrap>
                   {currentSong?.title}
                 </Typography>
-                <Typography variant="caption" component="p" className={classes.name} noWrap>
+                <Typography
+                  variant="caption"
+                  component="p"
+                  className={classes.name}
+                  noWrap
+                >
                   {currentSong?.user?.name}
                 </Typography>
-              </Grid> 
+              </Grid>
             </Grid>
-            
-            <Grid item container xs={7} justify="center" alignItems="center" wrap="nowrap">
+
+            <Grid
+              item
+              container
+              xs={7}
+              justify="center"
+              alignItems="center"
+              wrap="nowrap"
+            >
               <Grid item>
                 <audio
                   style={{ height: 34, width: '50vw' }}
@@ -84,10 +108,10 @@ const MusicBar = (props) => {
                   controls
                   autoPlay
                 >
-                  <source src={trackSource} type="audio/mpeg"/>
+                  <source src={trackSource} type="audio/mpeg" />
                   Your browser does not support the audio element.
                 </audio>
-              </Grid> 
+              </Grid>
             </Grid>
           </Grid>
         </Container>
