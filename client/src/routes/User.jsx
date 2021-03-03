@@ -1,54 +1,61 @@
+import { useLazyQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { UserInfoSections } from '../components/User';
-import ErrorImageCard from '../components/ErrorImageCard';
 import MusicBar from '../components/MusicBar';
+import UserStatsCard from '../components/User/UserStatsCard';
+import UserTracksPaper from '../components/User/UserTracksPaper';
 // Audius API
+import { USER_BY_HANDLE } from '../graphql';
 import { getUserInfo, getTrackSource } from '../api/audius';
 
-const UserPage = ({ match }) => {
-  const [error, setError] = useState(false);
-  const [user, setUser] = useState(null);
-  const [tracks, setTracks] = useState(null);
+const User = ({ match }) => {
+  const handle = match.params.handle;
+  const [user, setUser] = useState({});
+  const [getUser, { loading, error, data }] = useLazyQuery(USER_BY_HANDLE);
 
   const [currentSong, setCurrentSong] = useState(null);
   const [trackSource, setTrackSource] = useState(null);
 
   useEffect(() => {
-    getUserInfo(match.params.handle)
-      .then((result) => {
-        setUser(result.user);
-        setTracks(result.tracks);
-        setError(result.error);
-      })
-      .catch(() => {});
-  }, [match]);
+    getUser({ variables: { handle } });
+  }, []);
 
   useEffect(() => {
-    if (currentSong) {  
-      getTrackSource(currentSong.id)
-        .then((result) => {
-          setTrackSource(result.source);
-        });
+    if (data?.getUserByHandle) {
+      console.log(data.getUserByHandle);
+      setUser(data.getUserByHandle);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (currentSong) {
+      getTrackSource(currentSong.id).then((result) => {
+        setTrackSource(result.source);
+      });
     }
   }, [currentSong]);
+
+  if (loading || !user) return 'Loading...';
+  if (error) return `${error}`;
 
   return (
     <Router>
       <div className="content">
         <div className="content__body">
-          {!error
-            ? <UserInfoSections user={user} tracks={tracks} setCurrentSong={setCurrentSong} />
-            : <ErrorImageCard />
-          }
-          <MusicBar
-            currentSong={currentSong}
-            trackSource={trackSource}
-          />
+          {user.id && (
+            <>
+              <UserStatsCard user={user} />
+              <UserTracksPaper
+                userId={user.id}
+                setCurrentSong={setCurrentSong}
+              />
+            </>
+          )}
+          <MusicBar currentSong={currentSong} trackSource={trackSource} />
         </div>
       </div>
     </Router>
   );
 };
 
-export default UserPage;
+export default User;
