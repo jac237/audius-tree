@@ -48,11 +48,13 @@ const useStyles = makeStyles((theme) => ({
   },
   verified: {
     color: '#01CECE',
+    marginLeft: 2,
   },
   chip: {
     color: '#01CECE',
     borderColor: '#01CECE',
-    margin: theme.spacing(0.5, 0, 0.5, 0),
+    borderRadius: 5,
+    margin: theme.spacing(0.5, 0, 0.8, 0),
   },
   button: {
     fontSize: 13,
@@ -61,15 +63,15 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiIcon-root': {
       fontSize: 13,
       overflow: 'visible',
-    }
-  }
+    },
+  },
 }));
 
 const TrackRowCard = (props) => {
   const classes = useStyles();
   const { track, setCurrentSong } = props;
   const [time, setTime] = useState('');
-  
+
   useEffect(() => {
     // Source: https://stackoverflow.com/questions/3733227/javascript-seconds-to-minutes-and-seconds
     // Output: "1:01" or "4:03:59" or "123:03:59"
@@ -78,15 +80,15 @@ const TrackRowCard = (props) => {
       const hrs = ~~(duration / 3600);
       const mins = ~~((duration % 3600) / 60);
       const secs = ~~duration % 60;
-      let ret = "";
+      let ret = '';
       if (hrs > 0) {
-          ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+        ret += '' + hrs + ':' + (mins < 10 ? '0' : '');
       }
-  
-      ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-      ret += "" + secs;
+
+      ret += '' + mins + ':' + (secs < 10 ? '0' : '');
+      ret += '' + secs;
       return ret;
-    }
+    };
     setTime(timeDisplay(track.duration));
   }, [track]);
 
@@ -95,7 +97,9 @@ const TrackRowCard = (props) => {
       <CardMedia
         className={classes.img}
         component="img"
-        src={track?.artwork ? track?.artwork['150x150'] : 'https://i.imgur.com/iajv7J1.png'}
+        src={
+          track.artwork ? track.artwork.x150 : 'https://i.imgur.com/iajv7J1.png'
+        }
         title="Song Artwork"
         onClick={() => {
           if (track) {
@@ -107,17 +111,23 @@ const TrackRowCard = (props) => {
         <Grid container direction="column">
           <Grid item container direction="row" justify="space-between">
             <Grid item>
-              {track?.mood &&
+              {track.mood && (
                 <Chip
-                  classes={{ root: classes.chip }}
+                  // classes={{ root: classes.chip }}
+                  className={classes.chip}
                   variant="outlined"
                   label={track.mood}
                   size="small"
                 />
-              }
+              )}
             </Grid>
             <Grid item>
-              <Typography className={classes.time} variant="caption" color="inherit" align="right">
+              <Typography
+                className={classes.time}
+                variant="caption"
+                color="inherit"
+                align="right"
+              >
                 {time}
               </Typography>
             </Grid>
@@ -135,14 +145,14 @@ const TrackRowCard = (props) => {
               gutterBottom
             >
               <Link
-                href={`https://audius.co/${track?.user?.handle}`}
+                href={`https://audius.co/${track.user.handle}`}
                 color="inherit"
               >
-                {track?.user?.name}
+                {track.user.name}
               </Link>
-              {track?.user?.is_verified && 
-                <VerifiedIcon className={classes.verified} fontSize="small"/>
-              }
+              {track.user.is_verified && (
+                <VerifiedIcon className={classes.verified} fontSize="small" />
+              )}
             </Typography>
           </Grid>
         </Grid>
@@ -151,7 +161,7 @@ const TrackRowCard = (props) => {
             <Button
               className={classes.button}
               startIcon={<Icon className="fas fa-play" fontSize="small" />}
-              href={`https://audius.co/tracks/${track?.id}`}
+              href={`https://audius.co/tracks/${track.id}`}
             >
               {track.favorite_count}
             </Button>
@@ -160,7 +170,7 @@ const TrackRowCard = (props) => {
             <Button
               className={classes.button}
               startIcon={<Icon className="fas fa-heart" fontSize="small" />}
-              href={`https://audius.co/tracks/${track?.id}`}
+              href={`https://audius.co/tracks/${track.id}`}
             >
               {track.play_count}
             </Button>
@@ -169,16 +179,16 @@ const TrackRowCard = (props) => {
             <Button
               className={classes.button}
               startIcon={<Icon className="fas fa-retweet" fontSize="small" />}
-              href={`https://audius.co/tracks/${track?.id}`}
+              href={`https://audius.co/tracks/${track.id}`}
             >
               {track.repost_count}
             </Button>
           </Grid>
-          
+
           <Grid item>
             <Button
               className={classes.button}
-              href={`https://audius.co/tracks/${track?.id}`}
+              href={`https://audius.co/tracks/${track.id}`}
             >
               <Icon className="fas fa-share" fontSize="small" />
             </Button>

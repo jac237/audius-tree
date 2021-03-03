@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
+import React, { useState, useEffect } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
-// Audius API
-import { getTrack } from '../../api/audius';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { TRACK_BY_ID } from '../../graphql';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,10 +19,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     width: 135 + theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      width: 175 + theme.spacing(3)
+      width: 175 + theme.spacing(3),
     },
     '&:hover': {
       background: '#393939',
+    },
+  },
+  skeleton: {
+    margin: 15,
+    width: 135,
+    [theme.breakpoints.up('sm')]: {
+      width: 175,
     },
   },
   media: {
@@ -42,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(0, 1, 0, 1),
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(0, 2, 0, 2)
+      padding: theme.spacing(0, 2, 0, 2),
     },
     '&:last-child': {
       paddingBottom: theme.spacing(2),
@@ -51,22 +59,18 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 13,
+    fontSize: 15,
   },
   handle: {
     display: 'inline-flex',
     color: 'gray',
     '&:hover': {
       color: 'white',
-    }
+    },
   },
   verified: {
+    marginLeft: 2,
     color: '#01CECE',
-  },
-  paper: {
-    position: 'absolute',
-    width: 300,
-    height: 300,
   },
 }));
 
@@ -79,72 +83,82 @@ const emptyTrack = {
 
 const TrackTileCard = (props) => {
   const classes = useStyles();
-  const { trackData, id, setCurrentSong } = props;
+  const { trackData, trackId, setCurrentSong } = props;
+  const [getTrack, { loading, error, data }] = useLazyQuery(TRACK_BY_ID);
+
   const [name, setName] = useState('');
   const [track, setTrack] = useState(emptyTrack);
   const [cover, setCover] = useState(
-    "https://media.tarkett-image.com/large/TH_24567081_24594081_24596081_24601081_24563081_24565081_24588081_001.jpg"
+    'https://media.tarkett-image.com/large/TH_24567081_24594081_24596081_24601081_24563081_24565081_24588081_001.jpg'
   );
 
   useEffect(() => {
-    if (id) {
-      getTrack(id)
-        .then((result) => {
-          setName(result.track.user.name)
-          setTrack(result.track);
-          setCover(result.track.artwork['150x150']);
-        })
-        .catch((err) => {console.log(err);});
+    if (trackId) {
+      getTrack({ variables: { trackId } });
     }
-  }, [id]);
-  
+  }, []);
+
+  useEffect(() => {
+    if (data?.getTrackById) {
+      setName(data.getTrackById.user.name);
+      setTrack(data.getTrackById);
+      setCover(data.getTrackById.artwork.x150);
+    }
+  }, [data]);
+
   useEffect(() => {
     if (trackData) {
-      setName(trackData.user.name)
+      setName(trackData.user.name);
       setTrack(trackData);
-      setCover(trackData.artwork['150x150']);
+      setCover(trackData.artwork.x150);
     }
   }, [trackData]);
 
+  if (error) return console.log(error);
+
   return (
     <Card className={classes.root} elevation={0}>
-      <CardMedia
-        className={classes.media}
-        component="img"
-        src={cover}
-        title={track?.title}
-        onClick={() => {
-          if (track) {
-            setCurrentSong(track);
-          }
-        }}
-      />
-      <CardContent className={classes.content}>
-        <Typography
-          className={classes.title}
-          variant="inherit"
-          component="p"
-          noWrap
-          gutterBottom
-        >
-          {track?.title}
-        </Typography>
-        <Typography
-          className={classes.handle}
-          variant="body2"
-          noWrap
-        >
-          <Link
-            href={`/${track?.user?.handle}`}
-            color="inherit"
-          >
-            {name}
-          </Link>
-          {track?.user?.is_verified && 
-            <VerifiedIcon className={classes.verified} fontSize="small"/>
-          }
-        </Typography>
-      </CardContent>
+      {!data && !trackData ? (
+        <Skeleton
+          variant="rect"
+          width={150}
+          height={150}
+          className={classes.skeleton}
+        />
+      ) : (
+        <>
+          <CardMedia
+            className={classes.media}
+            component="img"
+            src={cover}
+            title={track?.title}
+            onClick={() => {
+              if (track) {
+                setCurrentSong(track);
+              }
+            }}
+          />
+          <CardContent className={classes.content}>
+            <Typography
+              className={classes.title}
+              variant="inherit"
+              component="p"
+              noWrap
+              gutterBottom
+            >
+              {track?.title}
+            </Typography>
+            <Typography className={classes.handle} variant="body2" noWrap>
+              <Link href={`/${track?.user?.handle}`} color="inherit">
+                {name}
+              </Link>
+              {track?.user?.is_verified && (
+                <VerifiedIcon className={classes.verified} fontSize="small" />
+              )}
+            </Typography>
+          </CardContent>
+        </>
+      )}
     </Card>
   );
 };

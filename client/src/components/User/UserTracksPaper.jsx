@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import { useLazyQuery } from '@apollo/client';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import { TrackRowCard } from '../Track';
+import { USER_TRACKS } from '../../graphql';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     '& .MuiTabs-indicator': {
       backgroundColor: '#01CECE',
-    }
+    },
   },
   empty: {
     padding: theme.spacing(2),
@@ -45,28 +47,45 @@ const useStyles = makeStyles((theme) => ({
 
 const UserTracksPaper = (props) => {
   const classes = useStyles();
-  const { tracks, setCurrentSong } = props;
-  // const { value, setValue } = useState(0);
+  const { userId, setCurrentSong } = props;
+  const [getTracks, { loading, error, data }] = useLazyQuery(USER_TRACKS);
+  const [tracks, setTracks] = useState([]);
+
+  useEffect(() => {
+    getTracks({ variables: { userId } });
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data.getUserTracks);
+      setTracks(data.getUserTracks);
+    }
+  }, [data]);
+
+  if (error) return `${error}`;
 
   return (
     <Paper className={classes.root} square>
-      {tracks && (
-        <div className={classes.content}>
-          <Paper square className={classes.paper}>
-            <Tabs
-              className={classes.tabs}
-              value={0}
-              textColor="inherit"
-            >
-              <Tab label="Tracks" id="back-to-tracks-anchor" disableFocusRipple disableRipple/>
-            </Tabs>
-          </Paper>
-          {tracks && tracks.map((item) => (
-            <TrackRowCard key={item.id} track={item} setCurrentSong={setCurrentSong}/>
-          ))}
-        </div>
-      )}
-      {tracks.length === 0 && (
+      <div className={classes.content}>
+        <Paper square className={classes.paper}>
+          <Tabs className={classes.tabs} value={0} textColor="inherit">
+            <Tab
+              label="Tracks"
+              id="back-to-tracks-anchor"
+              disableFocusRipple
+              disableRipple
+            />
+          </Tabs>
+        </Paper>
+        {tracks.map((track) => (
+          <TrackRowCard
+            key={track.id}
+            track={track}
+            setCurrentSong={setCurrentSong}
+          />
+        ))}
+      </div>
+      {tracks.length === 0 && !loading && !data && (
         <Typography
           className={classes.empty}
           color="inherit"

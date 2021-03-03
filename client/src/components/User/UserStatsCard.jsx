@@ -50,15 +50,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#CC0000',
     '&:hover': {
       backgroundColor: '#CC0000',
-    }
+    },
   },
   handle: {
     display: 'inline-flex',
-    color: '#CBCBCB'
+    color: '#CBCBCB',
   },
   label: {
     fontSize: 13,
-    color: '#CBCBCB'
+    color: '#CBCBCB',
   },
   verified: {
     color: '#01CECE',
@@ -77,30 +77,32 @@ const UserStatsCard = ({ user }) => {
   // https://imgur.com/user/audiustree
   const defaultCover = 'https://i.imgur.com/H4neT3q.png';
   const defaultProfile = 'https://i.imgur.com/grJvvdx.png';
-  const [cover, setCover] = useState(defaultCover);
-  const [profile, setProfile] = useState(defaultProfile);
+  // const [cover, setCover] = useState(defaultCover);
+  // const [profile, setProfile] = useState(defaultProfile);
 
-  useEffect(() => {
-    const getCoverPhoto = () => {
-      if (user?.cover_photo) {
-        setCover(user?.cover_photo['2000x']);
-      }
-    };
-    const getProfilePhoto = () => {
-      if (user?.profile_picture) {
-        setProfile(user?.profile_picture['150x150']);
-      }
-    };
-    getCoverPhoto();
-    getProfilePhoto();
-  }, [user]);
+  // useEffect(() => {
+  //   const getCoverPhoto = () => {
+  //     if (user?.cover_photo) {
+  //       setCover(user?.cover_photo.x2000);
+  //     }
+  //   };
+
+  //   const getProfilePhoto = () => {
+  //     if (user?.profile_picture) {
+  //       setProfile(user?.profile_picture.x150);
+  //     }
+  //   };
+
+  //   getCoverPhoto();
+  //   getProfilePhoto();
+  // }, [user]);
 
   return (
     <Card className={classes.root} square>
       <CardMedia
         className={classes.media}
         component="img"
-        src={cover}
+        src={user.cover_photo.x2000}
         title="User Cover Photo"
       />
       <CardContent classes={{ root: classes.content }}>
@@ -109,7 +111,7 @@ const UserStatsCard = ({ user }) => {
             <Grid item xs={4}>
               <Avatar
                 className={classes.avatar}
-                src={profile}
+                src={user.profile_picture.x150}
                 aria-label="user profile photo"
               />
             </Grid>
@@ -119,7 +121,12 @@ const UserStatsCard = ({ user }) => {
                   <Typography variant="inherit" component="h2" align="center">
                     {user.track_count}
                   </Typography>
-                  <Typography variant="inherit" component="p" align="center" className={classes.label}>
+                  <Typography
+                    variant="inherit"
+                    component="p"
+                    align="center"
+                    className={classes.label}
+                  >
                     tracks
                   </Typography>
                 </Grid>
@@ -127,7 +134,12 @@ const UserStatsCard = ({ user }) => {
                   <Typography variant="inherit" component="h2" align="center">
                     {user.follower_count}
                   </Typography>
-                  <Typography variant="inherit" component="p" align="center" className={classes.label}>
+                  <Typography
+                    variant="inherit"
+                    component="p"
+                    align="center"
+                    className={classes.label}
+                  >
                     followers
                   </Typography>
                 </Grid>
@@ -135,7 +147,12 @@ const UserStatsCard = ({ user }) => {
                   <Typography variant="inherit" component="h2" align="center">
                     {user.followee_count}
                   </Typography>
-                  <Typography variant="inherit" component="p" align="center" className={classes.label}>
+                  <Typography
+                    variant="inherit"
+                    component="p"
+                    align="center"
+                    className={classes.label}
+                  >
                     following
                   </Typography>
                 </Grid>
@@ -144,7 +161,9 @@ const UserStatsCard = ({ user }) => {
                 <Button
                   classes={{ root: classes.buttonRoot }}
                   variant="contained"
-                  endIcon={<SvgIcon component={AudiusIcon} viewBox="0 0 200 200" />}
+                  endIcon={
+                    <SvgIcon component={AudiusIcon} viewBox="0 0 200 200" />
+                  }
                   href={`https://audius.co/${user.handle}`}
                   fullWidth
                 >
@@ -160,20 +179,35 @@ const UserStatsCard = ({ user }) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="inherit" className={classes.handle} gutterBottom>
+              <Typography
+                variant="inherit"
+                className={classes.handle}
+                gutterBottom
+              >
                 @{user.handle}
-                {user?.is_verified && <VerifiedIcon className={classes.verified} fontSize="small"/>}
+                {user.is_verified && (
+                  <VerifiedIcon className={classes.verified} fontSize="small" />
+                )}
               </Typography>
             </Grid>
             <Grid item>
               <Typography variant="subtitle2" component="p" gutterBottom>
-               {user.bio}
+                {user.bio}
               </Typography>
             </Grid>
-            {user?.location && (
-              <Grid item container className={classes.location} direction="row" alignItems="baseline">
+            {user.location && (
+              <Grid
+                item
+                container
+                className={classes.location}
+                direction="row"
+                alignItems="baseline"
+              >
                 <Grid item>
-                  <Icon className="fas fa-map-marker-alt" classes={{ root: classes.fontIcon }}/>
+                  <Icon
+                    className="fas fa-map-marker-alt"
+                    classes={{ root: classes.fontIcon }}
+                  />
                 </Grid>
                 <Grid item>
                   <Typography color="inherit" variant="subtitle2" component="p">
