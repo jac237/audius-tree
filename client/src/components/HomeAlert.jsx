@@ -9,12 +9,19 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    background: 'black',
+    borderRadius: 5,
+    padding: 20,
     margin: theme.spacing(2, 0, 2, 0),
   },
   icon: {
     verticalAlign: 'middle',
     fontSize: 15,
-  }
+  },
+  link: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 }));
 
 const HomeAlert = () => {
@@ -22,14 +29,24 @@ const HomeAlert = () => {
 
   return (
     <div className={classes.root}>
-      <Alert icon={false} severity="info">
-        <Typography align="center" variant="subtitle2">
-          Made with <FavoriteIcon color="secondary" className={classes.icon} /> using
-          the <Link href="https://audiusproject.github.io/api-docs/">Audius API</Link>.
-          Follow me on <Link href="https://audius.co/jessie">Audius</Link> for more favorites!
-          Note: Currently in production.
-        </Typography>
-      </Alert>
+      <Typography align="center" variant="subtitle1">
+        Made with <FavoriteIcon color="secondary" className={classes.icon} />{' '}
+        using the{' '}
+        <Link
+          href="https://audiusproject.github.io/api-docs/"
+          className={classes.link}
+        >
+          Audius API
+        </Link>
+        . Follow me on{' '}
+        <Link href="https://audius.co/jessie" className={classes.link}>
+          Audius
+        </Link>
+        {'! '}
+        <em>
+          <u>Currently in production.</u>
+        </em>
+      </Typography>
     </div>
   );
 };
