@@ -56,8 +56,8 @@ const UserTracksPaper = (props) => {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      console.log(data.getUserTracks);
+    if (data?.getUserTracks) {
+      // console.log(data.getUserTracks);
       setTracks(data.getUserTracks);
     }
   }, [data]);
