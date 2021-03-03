@@ -4,14 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import MusicBar from '../components/MusicBar';
 import UserStatsCard from '../components/User/UserStatsCard';
 import UserTracksPaper from '../components/User/UserTracksPaper';
-// Audius API
-import { USER_BY_HANDLE } from '../graphql';
-import { getUserInfo, getTrackSource } from '../api/audius';
+import { USER_BY_HANDLE, TRACK_SOURCE } from '../graphql';
 
 const User = ({ match }) => {
   const handle = match.params.handle;
   const [user, setUser] = useState({});
   const [getUser, { loading, error, data }] = useLazyQuery(USER_BY_HANDLE);
+  const [getTrackSource, { data: sourceTrack }] = useLazyQuery(TRACK_SOURCE);
 
   const [currentSong, setCurrentSong] = useState(null);
   const [trackSource, setTrackSource] = useState(null);
@@ -28,12 +27,17 @@ const User = ({ match }) => {
   }, [data]);
 
   useEffect(() => {
-    if (currentSong) {
-      getTrackSource(currentSong.id).then((result) => {
-        setTrackSource(result.source);
-      });
+    if (currentSong?.id) {
+      console.log(currentSong);
+      getTrackSource({ variables: { trackId: currentSong.id } });
     }
   }, [currentSong]);
+
+  useEffect(() => {
+    if (sourceTrack?.getTrackSource) {
+      setTrackSource(sourceTrack.getTrackSource);
+    }
+  }, [sourceTrack]);
 
   if (loading || !user) return 'Loading...';
   if (error) return `${error}`;
