@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "name": "audiustree-graphql",
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "index.js"
+    }
+  ],
+  "alias": ["audiustree-graphql"],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "1337",
+    "CORS_ORIGIN": "https://audiustree.vercel.app"
+  }
+}
