@@ -91,8 +91,8 @@ const Home = () => {
           <div className={classes.content}>
             <Grid container className="content-root">
               <HomeAlert />
-              <FeaturedArtists />
               <FeaturedTracks userId={userId} setCurrentSong={setCurrentSong} />
+              <FeaturedArtists />
               <TrendingTracks
                 genre={genre}
                 time={time}
