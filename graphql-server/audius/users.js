@@ -9,13 +9,13 @@ const getUserById = async (userId) => {
     method: 'GET',
     url: `${host}/v1/users/${userId}`,
     headers: {
-      'Accept': 'application/json'
-    }
+      Accept: 'application/json',
+    },
   })
     .then((res) => res.data)
     .then((json) => json.data)
     .catch((err) => console.log(err));
-}
+};
 
 const getUserByHandle = async (handle) => {
   const host = await selectHost();
@@ -24,61 +24,92 @@ const getUserByHandle = async (handle) => {
     method: 'GET',
     url: `${host}/v1/resolve?url=${url}&app_name=${appName}`,
     headers: {
-      'Accept': 'application/json'
-    }
+      Accept: 'application/json',
+    },
   })
     .then((res) => res.data)
     .then((json) => json.data)
     .catch((err) => console.log(err));
-}
+};
 
 const getUserTracks = async (userId) => {
   const host = await selectHost();
   return axios({
     method: 'GET',
-    url: `${host}/v1/users/${userId}/tracks`,
+    url: `${host}/v1/users/${userId}/tracks?app_name=${appName}`,
     headers: {
-      'Accept': 'application/json'
-    }
+      Accept: 'application/json',
+    },
   })
     .then((res) => res.data)
     .then((json) => json.data)
     .catch((err) => console.log(err));
-}
+};
 
 const getUserFavorites = async (userId) => {
   const host = await selectHost();
   return axios({
     method: 'GET',
-    url: `${host}/v1/users/${userId}/favorites`,
+    url: `${host}/v1/users/${userId}/favorites?app_name=${appName}`,
     headers: {
-      'Accept': 'application/json'
-    }
+      Accept: 'application/json',
+    },
   })
     .then((res) => res.data)
     .then((json) => json.data)
     .catch((err) => console.log(err));
-}
+};
+
+const getUserReposts = async (userId) => {
+  const host = await selectHost();
+  return axios({
+    method: 'GET',
+    url: `${host}/v1/users/${userId}/reposts?app_name=${appName}`,
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+    .then((res) => res.data)
+    .then((json) => json.data)
+    .catch((err) => console.log(err));
+};
+
+const getUserTags = async (userId) => {
+  const host = await selectHost();
+  return axios({
+    method: 'GET',
+    url: `${host}/v1/users/${userId}/tags?app_name=${appName}`,
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+    .then((res) => res.data)
+    .then((json) => json.data)
+    .catch((err) => console.log(err));
+};
 
 const getUsersBySearch = async (query) => {
   if (!query) return [];
   const host = await selectHost();
   return axios({
     method: 'GET',
-    url: `${host}/v1/users/search?query=${query}`,
+    url: `${host}/v1/users/search?query=${query}&app_name=${appName}`,
     headers: {
-      'Accept': 'application/json'
-    }
+      Accept: 'application/json',
+    },
   })
     .then((res) => res.data)
     .then((json) => json.data)
     .catch((err) => console.log(err));
-}
+};
 
 module.exports = {
   getUserById,
   getUserByHandle,
   getUserTracks,
   getUserFavorites,
-  getUsersBySearch
-}
+  getUsersBySearch,
+  getUserFavorites,
+  getUserReposts,
+  getUserTags,
+};

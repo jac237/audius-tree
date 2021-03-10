@@ -47,15 +47,39 @@ const typeDefs = gql`
     repost_count: Int
     track_count: Int
   }
+  type Playlist {
+    artwork: Image
+    description: String
+    id: ID!
+    is_album: Boolean
+    playlist_name: String
+    repost_count: Int
+    favorite_count: Int
+    total_play_count: Int
+    user: User
+  }
+  union RepostItem = Track | Playlist
+  type Repost {
+    timestamp: String
+    item_type: String
+    item: RepostItem
+  }
   type Query {
     getUserById(userId: ID!): User
     getUserByHandle(handle: String!): User
     getUserTracks(userId: ID!): [Track]
     getUserFavorites(userId: ID!): [Favorite]
     getUsersBySearch(query: String!): [User]
+    getUserReposts(userId: ID!): [Repost]
+    getUserTags(userId: ID!): [String]
+
     getTrackById(trackId: ID!): Track
     getTrendingTracks(genre: String, time: String): [Track]
     getTrackSource(trackId: ID!): String
+
+    searchPlaylists(query: String!): [Playlist]
+    getPlaylist(playlistId: ID!): Playlist
+    getPlaylistTracks(playlistId: ID!): [Track]
   }
 `;
 

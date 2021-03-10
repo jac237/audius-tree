@@ -12,7 +12,10 @@ const server = new ApolloServer({ typeDefs, resolvers });
 
 app.use(morgan('tiny'));
 app.use(cors());
-// app.use(helmet()); // Don't use for repl.it
+// app.use(helmet()); // Don't when using GraphQL GUI
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 server.applyMiddleware({
   app,
   path: '/graphql',
