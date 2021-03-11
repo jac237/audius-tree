@@ -89,7 +89,8 @@ const Playlist = (props) => {
 
   useEffect(() => {
     if (playlistData?.getPlaylist) {
-      console.log(playlistData);
+      const { id, playlist_name } = playlistData?.getPlaylist;
+      console.log(id, playlist_name);
     }
   }, [playlistData]);
 

@@ -1,6 +1,6 @@
 # Audius Tree
 
-![Audius Tree](https://i.imgur.com/AmcidMR.png 'Audius Tree Logo')
+[<img src="https://i.imgur.com/AmcidMR.png" alt="AudiusTree" width="100%"/>](https://audiustree.vercel.app/)
 
 Full Stack Web App with React.js, Material-UI, & Node.js
 
@@ -8,11 +8,11 @@ Full Stack Web App with React.js, Material-UI, & Node.js
 
 **Preview**
 
-![Homepage Preview](https://i.imgur.com/MFxToBm.png)
+[<img src="https://i.imgur.com/TK3pQNX.png" alt="AudiusTree Preview" width="100%"/>](https://audiustree.vercel.app/)
 
 **What is Audius?**
 
-![Audius](https://audius.co/static/media/Horizontal-Logo-Full-Color.c8d197d0.png 'Audius Logo')
+[<img src="https://audius.co/static/media/Horizontal-Logo-Full-Color.c8d197d0.png" alt="Audius" width="100%"/>](https://audius.org/)
 
 > A: [Audius](audius.co) is the world’s first decentralized and open-source music streaming platform designed to be controlled by its community of independent artists, fans, & developers — not a single corporation or major record labels.
 
