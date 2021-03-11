@@ -146,6 +146,47 @@ const TRACK_SOURCE = gql`
   }
 `;
 
+const GET_PLAYLIST = gql`
+  query GetPlaylist($playlistId: ID!) {
+    getPlaylist(playlistId: $playlistId) {
+      id
+      playlist_name
+      description
+      artwork {
+        x150
+        x480
+      }
+    }
+  }
+`;
+
+const GET_PLAYLIST_TRACKS = gql`
+  query GetPlaylistTracks($playlistId: ID!) {
+    getPlaylistTracks(playlistId: $playlistId) {
+      id
+      description
+      title
+      artwork {
+        x150
+        x480
+      }
+      user {
+        id
+        name
+        handle
+        bio
+        is_verified
+      }
+    }
+  }
+`;
+
+const GET_USER_TAGS = gql`
+  query GetUserTags($userId: ID!) {
+    getUserTags(userId: $userId)
+  }
+`;
+
 export {
   USER_BY_ID,
   USER_BY_HANDLE,
@@ -155,4 +196,7 @@ export {
   TRENDING_TRACKS,
   TRACK_SOURCE,
   USER_SEARCH,
+  GET_PLAYLIST,
+  GET_PLAYLIST_TRACKS,
+  GET_USER_TAGS,
 };
