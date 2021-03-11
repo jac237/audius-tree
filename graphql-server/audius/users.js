@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 const selectHost = require('./selectHost');
+const MAX_NUM_TAGS = 8;
 
 const appName = 'AudiusTree';
 
@@ -84,7 +85,10 @@ const getUserTags = async (userId) => {
     },
   })
     .then((res) => res.data)
-    .then((json) => json.data)
+    .then((json) => {
+      const trimmed = json.data.slice(1, MAX_NUM_TAGS);
+      return trimmed;
+    })
     .catch((err) => console.log(err));
 };
 
