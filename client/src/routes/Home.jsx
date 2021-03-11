@@ -11,6 +11,8 @@ import HomeAlert from '../components/HomeAlert';
 import FeaturedTracks from '../components/FeaturedTracks';
 import FeaturedArtists from '../components/FeaturedArtists';
 import TrendingTracks from '../components/TrendingTracks';
+import FearturedTracksSlide from '../components/FearturedTracksSlide';
+import Playlist from '../components/Playlist';
 import { TRACK_SOURCE } from '../graphql';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,49 +29,32 @@ const userId = 'DBkVA';
 const genre = 'Moombahton';
 const time = 'week';
 
+const playlists = [
+  { id: 'LKO7w' },
+  { id: 'LWKYo' },
+  { id: 'D9lkj' },
+  { id: 'nZJbq' },
+  { id: 'e4P2b' },
+  { id: 'ezJ6Z' },
+  { id: 'ngy52' },
+  { id: 'Dvbjm' },
+  { id: 'epq5K' },
+  { id: 'em2zv' },
+  { id: 'Dyl4w' },
+  { id: 'noqaX' },
+  { id: 'DrqW8' },
+  { id: 'LwKz1' },
+  { id: 'D2xG0' },
+  { id: 'n0xRV' },
+  { id: 'e4P3Z' },
+];
+
 const Home = () => {
   const classes = useStyles();
   // Move to MusicProvider
   const [currentSong, setCurrentSong] = useState(null);
   const [trackSource, setTrackSource] = useState(null);
   const [getTrackSource, { loading, data }] = useLazyQuery(TRACK_SOURCE);
-
-  // const [trending, setTrending] = useState([]);
-  // const [favorites, setFavorites] = useState([]);
-
-  // const { trendingLoading, trendingError, trending } = useQuery(TRENDING_TRACKS, { variables: { genre, time } });
-  // const { favoritesLoading, favoritesError, favorites } = useQuery(FAVORITE_TRACKS, { variables: { userId } });
-
-  // useEffect(() => {
-  //   console.log(trending, trendingError);
-  //   if (trending) {
-  //     console.log(trending);
-  //     // trending = trending.reverse().slice(0, trendingSongTileLimit);
-  //     return;
-  //   };
-  //   // if (!trendingLoading) {
-  //   // }
-  //   // getTrending(trendingGenre, trendingTime)
-  //   //   .then((result) => {
-  //   //   })
-  //   //   .catch(() => {});
-  // }, [trending]);
-
-  // useEffect(() => {
-  //   if (favorites) {
-  //     console.log(favorites);
-  //     const start = Math.floor(Math.random() * randomRangeLimit);
-  //     const end = start + featuredSongTileLimit;
-  //     // favorites = favorites.reverse().slice(start, end)
-  //   }
-  //   // if (!favoritesLoading) {
-  //   // }
-  //   // getFavorites(userID)
-  //   //   .then((result) => {
-  //   //     setFavorites(newFavorites);
-  //   //   })
-  //   //   .catch(() => {});
-  // }, [favorites]);
 
   useEffect(() => {
     console.log(currentSong);
@@ -91,13 +76,13 @@ const Home = () => {
           <div className={classes.content}>
             <Grid container className="content-root">
               <HomeAlert />
-              <FeaturedTracks userId={userId} setCurrentSong={setCurrentSong} />
-              <FeaturedArtists />
-              <TrendingTracks
-                genre={genre}
-                time={time}
-                setCurrentSong={setCurrentSong}
-              />
+              {playlists.map((playlist) => (
+                <Playlist
+                  key={playlist.id}
+                  id={playlist.id}
+                  setCurrentSong={setCurrentSong}
+                />
+              ))}
             </Grid>
           </div>
         </Container>
