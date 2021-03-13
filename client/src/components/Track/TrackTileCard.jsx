@@ -149,7 +149,7 @@ const TrackTileCard = (props) => {
               {track?.title}
             </Typography>
             <Typography className={classes.handle} variant="body2" noWrap>
-              <Link href={`/${track?.user?.handle}`} color="inherit">
+              <Link href={`/user/${track?.user?.handle}`} color="inherit">
                 {name}
               </Link>
               {track?.user?.is_verified && (

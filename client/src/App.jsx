@@ -14,8 +14,8 @@ function App() {
       <Navbar />
       <Suspense fallback={<LoadingGrid />}>
         <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route path="/:handle" component={User}/>
+          <Route exact path="/" component={Home} />
+          <Route path="/user/:handle" component={User} />
         </Switch>
       </Suspense>
     </Router>
