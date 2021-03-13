@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { useLazyQuery } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useQuery, useLazyQuery } from '@apollo/client';
 import Carousel, { consts } from 'react-elastic-carousel';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -40,26 +40,23 @@ const useStyles = makeStyles((theme) => ({
 
 const breakPoints = [
   { width: 1, itemsToShow: 2 },
-  { width: 550, itemsToShow: 3 },
-  { width: 768, itemsToShow: 4 },
-  { width: 1100, itemsToShow: 5 },
+  { width: 450, itemsToShow: 3 },
+  { width: 850, itemsToShow: 4 },
+  { width: 980, itemsToShow: 5 },
 ];
 
 const myArrow = ({ type, onClick, isEdge }) => {
-  const styles = {
-    borderRadius: 5,
-    height: 50,
-    background: 'rgba(255,255,255,0.5)',
-  };
   const pointer =
-    type === consts.PREV ? (
-      <ChevronLeftIcon style={styles} />
-    ) : (
-      <ChevronRightIcon style={styles} />
-    );
+    type === consts.PREV ? <ChevronLeftIcon /> : <ChevronRightIcon />;
   return (
     <IconButton
-      style={{ margin: 'auto', width: 25 }}
+      style={{
+        borderRadius: 5,
+        height: '85%',
+        margin: 'auto',
+        width: '1.8rem',
+        background: 'gray',
+      }}
       size="small"
       onClick={onClick}
       disabled={isEdge}
@@ -72,20 +69,26 @@ const myArrow = ({ type, onClick, isEdge }) => {
 const Playlist = (props) => {
   const classes = useStyles();
   const { id, setCurrentSong } = props;
-  const [
-    getPlaylist,
-    { loading: playlistLoading, error: playlistError, data: playlistData },
-  ] = useLazyQuery(GET_PLAYLIST);
-  const [
-    getTracks,
-    { loading: tracksLoading, error: tracksError, data: tracksData },
-  ] = useLazyQuery(GET_PLAYLIST_TRACKS);
+  const {
+    loading: playlistLoading,
+    error: playlistError,
+    data: playlistData,
+  } = useQuery(GET_PLAYLIST, {
+    variables: { playlistId: id },
+  });
+  const {
+    loading: tracksLoading,
+    error: tracksError,
+    data: tracksData,
+  } = useQuery(GET_PLAYLIST_TRACKS, { variables: { playlistId: id } });
 
   useEffect(() => {
-    // console.log('FeaturedTracks', props);
-    getPlaylist({ variables: { playlistId: id } });
-    getTracks({ variables: { playlistId: id } });
-  }, []);
+    if (playlistError) {
+      console.error('Unable to fetch playlist: playlistError');
+    } else if (tracksError) {
+      console.error('Unable to fetch tracks: trackError');
+    }
+  }, [playlistError, tracksError]);
 
   useEffect(() => {
     if (playlistData?.getPlaylist) {
@@ -95,14 +98,8 @@ const Playlist = (props) => {
   }, [playlistData]);
 
   return (
-    <Grid container style={{ marginBottom: 10 }}>
-      <Grid
-        item
-        container
-        spacing={2}
-        alignItems="flex-start"
-        style={{ paddingLeft: '2.5rem' }}
-      >
+    <Grid container style={{ margin: '10px 0px' }}>
+      <Grid item container spacing={2} alignItems="flex-start">
         <Grid item>
           {playlistLoading || !playlistData?.getPlaylist ? (
             <Skeleton variant="rect" width={60} height={60} />

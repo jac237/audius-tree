@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     borderRadius: '8px',
     width: 135 + theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: 175 + theme.spacing(3),
     },
     '&:hover': {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   skeleton: {
     margin: 15,
     width: 135,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: 175,
     },
   },
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     height: 135,
     width: 135,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       padding: theme.spacing(1.5),
       height: 175,
       width: 175,
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: theme.spacing(0, 1, 0, 1),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       padding: theme.spacing(0, 2, 0, 2),
     },
     '&:last-child': {

@@ -8,12 +8,18 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     top: 'auto',
     bottom: 0,
     backgroundColor: '#212121',
     padding: theme.spacing(0.5, 0, 0.5, 0),
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
   },
   container: {
     alignContent: 'center',
@@ -99,7 +105,7 @@ const MusicBar = (props) => {
             >
               <Grid item>
                 <audio
-                  style={{ height: 34, width: '50vw' }}
+                  style={{ height: 34, width: '30vw' }}
                   ref={audioEl}
                   crossOrigin="anonymous"
                   type="audio/mpeg"

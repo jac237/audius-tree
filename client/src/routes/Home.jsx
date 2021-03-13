@@ -1,17 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
-import { useLazyQuery } from '@apollo/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { useQuery } from '@apollo/client';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import MusicBar from '../components/MusicBar';
-import HomeAlert from '../components/HomeAlert';
-import FeaturedTracks from '../components/FeaturedTracks';
-import FeaturedArtists from '../components/FeaturedArtists';
-import TrendingTracks from '../components/TrendingTracks';
-import FearturedTracksSlide from '../components/FearturedTracksSlide';
 import Playlist from '../components/Playlist';
 import { TRACK_SOURCE } from '../graphql';
 
@@ -24,10 +19,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(11),
   },
 }));
-
-const userId = 'DBkVA';
-const genre = 'Moombahton';
-const time = 'week';
 
 const playlists = [
   { id: 'LKO7w' },
@@ -51,23 +42,16 @@ const playlists = [
 
 const Home = () => {
   const classes = useStyles();
-  // Move to MusicProvider
+
+  // Move to Music Storage using Redux
   const [currentSong, setCurrentSong] = useState(null);
   const [trackSource, setTrackSource] = useState(null);
-  const [getTrackSource, { loading, data }] = useLazyQuery(TRACK_SOURCE);
-
   useEffect(() => {
     console.log(currentSong);
     if (currentSong?.id) {
-      getTrackSource({ variables: { trackId: currentSong.id } });
+      setTrackSource(currentSong.streamUrl);
     }
   }, [currentSong]);
-
-  useEffect(() => {
-    if (data?.getTrackSource) {
-      setTrackSource(data.getTrackSource);
-    }
-  }, [data]);
 
   return (
     <Router>
@@ -75,7 +59,6 @@ const Home = () => {
         <Container>
           <div className={classes.content}>
             <Grid container className="content-root">
-              <HomeAlert />
               {playlists.map((playlist) => (
                 <Playlist
                   key={playlist.id}

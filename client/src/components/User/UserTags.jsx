@@ -5,13 +5,14 @@ const MAX_NUM_TAGS = 5;
 
 const classes = {
   root: {
-    marginTop: 5,
+    marginTop: 0,
   },
   chip: {
     background: 'lightgray',
-    borderRadius: 20,
+    borderRadius: 5,
     fontSize: '0.7rem',
     fontWeight: 'bold',
+    height: '1.25rem',
   },
 };
 
@@ -39,7 +40,7 @@ const Tags = ({ string }) => {
             clickable
             centerRipple
             size="small"
-            label={`#${tag}`}
+            label={`#${tag.trim()}`}
             style={classes.chip}
           />
         </Grid>
