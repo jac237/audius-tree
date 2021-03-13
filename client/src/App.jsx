@@ -74,6 +74,14 @@ const useStyles = makeStyles((theme) => ({
   subheader: {
     fontWeight: 'bold',
   },
+  navLogo: {
+    margin: 'auto',
+  },
+  navImage: {
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '-2rem',
+    },
+  },
 }));
 
 function ResponsiveDrawer(props) {
@@ -91,7 +99,6 @@ function ResponsiveDrawer(props) {
       <img src="https://i.imgur.com/YsNnnJW.png" width="100%" />
       <Divider />
       <List
-        dense
         subheader={
           <ListSubheader color="inherit" className={classes.subheader}>
             Made with{' '}
@@ -189,9 +196,14 @@ function ResponsiveDrawer(props) {
           >
             <AppsIcon />
           </IconButton>
-          <div style={{ margin: 'auto' }}>
-            <img src="https://i.imgur.com/rGCPLa8.png" width="35vmin" />
+          <div className={classes.navLogo}>
+            <img
+              src="https://i.imgur.com/rGCPLa8.png"
+              width="35vmin"
+              className={classes.navImage}
+            />
           </div>
+          <div className={classes.navRight}></div>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
