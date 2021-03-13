@@ -64,6 +64,7 @@ const TRACK_BY_ID = gql`
       title
       play_count
       duration
+      streamUrl
       user {
         id
         name
@@ -87,6 +88,7 @@ const USER_TRACKS = gql`
       play_count
       repost_count
       duration
+      streamUrl
       artwork {
         x150
       }
@@ -113,6 +115,7 @@ const TRENDING_TRACKS = gql`
     getTrendingTracks(genre: $genre, time: $time) {
       id
       title
+      streamUrl
       artwork {
         x150
       }
@@ -166,6 +169,7 @@ const GET_PLAYLIST_TRACKS = gql`
       id
       description
       title
+      streamUrl
       artwork {
         x150
         x480

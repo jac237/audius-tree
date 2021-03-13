@@ -30,6 +30,7 @@ const typeDefs = gql`
     duration: Int
     downloadable: Boolean
     play_count: Int
+    streamUrl: String
   }
   type User {
     id: ID!

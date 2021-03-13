@@ -1,6 +1,7 @@
 const usersResolvers = require('./users');
 const tracksResolvers = require('./tracks');
 const playlistsResolvers = require('./playlists');
+const audius = require('../../audius');
 
 module.exports = {
   // Post: {
@@ -11,6 +12,16 @@ module.exports = {
     ...usersResolvers.Query,
     ...tracksResolvers.Query,
     ...playlistsResolvers.Query,
+  },
+  Track: {
+    streamUrl: (root, _args, _context, _info) => {
+      return audius
+        .getTrackSource(root.id)
+        .then((source) => source)
+        .catch((err) => {
+          throw new Error(err);
+        });
+    },
   },
   Banner: {
     x640: (root, _args, _context, _info) => {
