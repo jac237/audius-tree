@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserTracksPaper = (props) => {
   const classes = useStyles();
-  const { userId, setCurrentSong } = props;
+  const { userId } = props;
   const [getTracks, { loading, error, data }] = useLazyQuery(USER_TRACKS);
   const [tracks, setTracks] = useState([]);
 
@@ -67,7 +67,7 @@ const UserTracksPaper = (props) => {
   return (
     <Paper className={classes.root} square>
       <div className={classes.content}>
-        <Paper square className={classes.paper}>
+        {/* <Paper square className={classes.paper}>
           <Tabs className={classes.tabs} value={0} textColor="inherit">
             <Tab
               label="Tracks"
@@ -76,13 +76,9 @@ const UserTracksPaper = (props) => {
               disableRipple
             />
           </Tabs>
-        </Paper>
+        </Paper> */}
         {tracks.map((track) => (
-          <TrackRowCard
-            key={track.id}
-            track={track}
-            setCurrentSong={setCurrentSong}
-          />
+          <TrackRowCard key={track.id} track={track} />
         ))}
       </div>
       {tracks.length === 0 && !loading && !data && (

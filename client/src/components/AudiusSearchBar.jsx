@@ -108,7 +108,11 @@ const AudiusSearchBar = () => {
             : 'https://i.imgur.com/grJvvdx.png';
 
           return (
-            <Link color="inherit" underline="none" href={`/${user.handle}`}>
+            <Link
+              color="inherit"
+              underline="none"
+              href={`/user/${user.handle}`}
+            >
               <Grid container spacing={2} direction="row" wrap="nowrap">
                 <Grid item>
                   <Avatar alt={user.name} src={photo} />

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,14 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import { MusicContext } from './MusicContext';
+import ReactHowler from 'react-howler';
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import MusicControls from './MusicControls';
 
 const drawerWidth = 240;
 
@@ -16,18 +24,15 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     backgroundColor: '#212121',
     padding: theme.spacing(0.5, 0, 0.5, 0),
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
+    zIndex: 1500,
   },
   container: {
     alignContent: 'center',
     alignItems: 'center',
   },
   media: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   },
   icon: {
     color: 'white',
@@ -43,20 +48,38 @@ const useStyles = makeStyles((theme) => ({
 const MusicBar = (props) => {
   const classes = useStyles();
   const audioEl = useRef(null);
-  const { currentSong, trackSource } = props;
-  const [media, setMedia] = useState('https://i.imgur.com/iajv7J1.png');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currPlaylist, setCurrPlaylist, currTrack, setCurrTrack] = useContext(
+    MusicContext
+  );
+  // const { currentSong, trackSource } = props;
+  const defaultMedia = 'https://i.imgur.com/iajv7J1.png';
 
   useEffect(() => {
-    console.log('current track source:', trackSource);
+    console.log('current track source:', currTrack);
     audioEl.current.load();
-  }, [trackSource]);
+  }, [currTrack]);
 
-  useEffect(() => {
-    if (currentSong?.artwork) {
-      const cover = currentSong?.artwork.x150;
-      setMedia(cover);
-    }
-  }, [currentSong]);
+  const pauseSong = () => {
+    setIsPlaying(false);
+  };
+
+  const playSong = () => {
+    setIsPlaying(true);
+    // const track = playlist[index];
+
+    // console.log(`playSong() - index(${index}), currIndex(${currIndex})`);
+    // if (currIndex && currIndex === index) {
+    //   // we already have the track loaded
+    //   console.log("track already playing");
+    //   return;
+    // } else {
+    //   console.log(`playSong() - setting new track, index(${index})`);
+    //   setCurrTrack(track);
+    //   setCurrIndex(index);
+    //   setIsPlaying(true);
+    // }
+  };
 
   return (
     <AppBar position="fixed" className={classes.root}>
@@ -66,15 +89,18 @@ const MusicBar = (props) => {
             <Grid
               item
               container
-              xs={5}
               spacing={1}
               alignContent="center"
+              alignItems="center"
               wrap="nowrap"
+              xs={5}
+              sm={6}
+              md={7}
             >
               <Grid item>
                 <Avatar
                   alt="Track Artwork"
-                  src={media}
+                  src={currTrack ? currTrack.artwork.x150 : defaultMedia}
                   variant="square"
                   className={classes.media}
                 />
@@ -82,7 +108,7 @@ const MusicBar = (props) => {
 
               <Grid item zeroMinWidth>
                 <Typography variant="inherit" component="h5" noWrap>
-                  {currentSong?.title}
+                  {currTrack?.title}
                 </Typography>
                 <Typography
                   variant="caption"
@@ -90,19 +116,21 @@ const MusicBar = (props) => {
                   className={classes.name}
                   noWrap
                 >
-                  {currentSong?.user?.name}
+                  {currTrack?.user?.name}
                 </Typography>
               </Grid>
             </Grid>
-
             <Grid
               item
               container
-              xs={7}
               justify="center"
               alignItems="center"
               wrap="nowrap"
+              xs={7}
+              sm={6}
+              md={5}
             >
+              {/* <MusicControls currTrack={currTrack} /> */}
               <Grid item>
                 <audio
                   style={{ height: 34, width: '30vw' }}
@@ -113,9 +141,38 @@ const MusicBar = (props) => {
                   controls
                   autoPlay
                 >
-                  <source src={trackSource} type="audio/mpeg" />
+                  <source src={currTrack?.streamUrl} type="audio/mpeg" />
                   Your browser does not support the audio element.
                 </audio>
+                {/** REACT HOWLER */}
+                {/* <ReactHowler
+                  html5={true}
+                  playing={isPlaying}
+                  src={[currTrack?.streamUrl]}
+                  onPlay={() => {
+                    console.log('playing sound!');
+                  }}
+                  onEnd={() => {
+                    console.log('ongEnd(): calling nextSong()');
+                  }}
+                />
+                {isPlaying ? (
+                  <IconButton
+                    aria-label="pause"
+                    style={classes.margin}
+                    onClick={() => pauseSong()}
+                  >
+                    <PauseIcon fontSize="inherit" />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    aria-label="play"
+                    style={classes.margin}
+                    onClick={() => playSong()}
+                  >
+                    <PlayArrowIcon fontSize="inherit" />
+                  </IconButton>
+                )} */}
               </Grid>
             </Grid>
           </Grid>

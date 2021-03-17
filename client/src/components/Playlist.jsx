@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_PLAYLIST, GET_PLAYLIST_TRACKS } from '../graphql';
 import Carousel, { consts } from 'react-elastic-carousel';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { GET_PLAYLIST, GET_PLAYLIST_TRACKS } from '../graphql';
 import TrackTileCard from './Track/TrackTileCard';
 import { UserTags } from './User';
 
@@ -55,7 +54,7 @@ const myArrow = ({ type, onClick, isEdge }) => {
         height: '85%',
         margin: 'auto',
         width: '1.8rem',
-        background: 'gray',
+        background: '#3c3c3c',
       }}
       size="small"
       onClick={onClick}
@@ -68,7 +67,7 @@ const myArrow = ({ type, onClick, isEdge }) => {
 
 const Playlist = (props) => {
   const classes = useStyles();
-  const { id, setCurrentSong } = props;
+  const { id } = props;
   const {
     loading: playlistLoading,
     error: playlistError,
@@ -135,10 +134,14 @@ const Playlist = (props) => {
         <Grid item xs>
           {tracksLoading || !tracksData?.getPlaylistTracks ? (
             <>
+              <Skeleton
+                variant="rect"
+                animation="wave"
+                width="100%"
+                height={200}
+              />
               <Skeleton variant="text" />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
-              <Skeleton variant="text" />
+              <Skeleton width="60%" />
             </>
           ) : (
             <Carousel
@@ -154,7 +157,7 @@ const Playlist = (props) => {
                 <TrackTileCard
                   key={track.id}
                   trackData={track}
-                  setCurrentSong={setCurrentSong}
+                  // setCurrentSong={setCurrentSong}
                 />
               ))}
             </Carousel>
@@ -164,43 +167,5 @@ const Playlist = (props) => {
     </Grid>
   );
 };
-// <div style={{ width: '100%' }}>
-//   {playlistLoading || !playlistData ? (
-//     <div>
-//       <Skeleton variant="rect" width={40} height={40} />
-//       <Skeleton variant="text" />
-//     </div>
-//   ) : (
-//     <div>
-// <Avatar
-//   alt="Remy Sharp"
-//   src={playlistData.getPlaylist.artwork.x150}
-//   onError={(e) => {
-//     e.target.onerror = null;
-//     e.target.src = 'https://i.imgur.com/iajv7J1.png';
-//   }}
-//   style={{ display: 'inline-block' }}
-// />
-// <Typography className={classes.header} variant="inherit">
-//   {playlistData.getPlaylist.playlist_name}
-// </Typography>
-//     </div>
-//   )}
-// {tracksLoading || !tracksData ? (
-//   <CircularProgress />
-// ) : (
-//   <div style={{ width: '100%' }}>
-//     <Carousel breakPoints={breakPoints} pagination={false} showEmptySlots>
-//       {tracksData.getPlaylistTracks.map((track) => (
-//         <TrackTileCard
-//           key={track.id}
-//           trackData={track}
-//           setCurrentSong={setCurrentSong}
-//         />
-//       ))}
-//     </Carousel>
-//   </div>
-// )}
-// </div>
 
 export default Playlist;

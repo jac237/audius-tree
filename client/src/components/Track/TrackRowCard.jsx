@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Icon from '@material-ui/core/Icon';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
+import { MusicContext } from '../MusicContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +70,10 @@ const useStyles = makeStyles((theme) => ({
 
 const TrackRowCard = (props) => {
   const classes = useStyles();
-  const { track, setCurrentSong } = props;
+  const { track } = props;
+  const [currPlaylist, setCurrPlaylist, currTrack, setCurrTrack] = useContext(
+    MusicContext
+  );
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -103,7 +107,7 @@ const TrackRowCard = (props) => {
         title="Song Artwork"
         onClick={() => {
           if (track) {
-            setCurrentSong(track);
+            setCurrTrack(track);
           }
         }}
       />
@@ -113,7 +117,6 @@ const TrackRowCard = (props) => {
             <Grid item>
               {track.mood && (
                 <Chip
-                  // classes={{ root: classes.chip }}
                   className={classes.chip}
                   variant="outlined"
                   label={track.mood}
