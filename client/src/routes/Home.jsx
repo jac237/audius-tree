@@ -20,19 +20,17 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <Router>
-      <div className={classes.root}>
-        <Container>
-          <div>
-            <Grid container className="content-root">
-              {playlists.map((playlist) => (
-                <PlaylistCarousel key={playlist.id} playlistId={playlist.id} />
-              ))}
-            </Grid>
-          </div>
-        </Container>
-      </div>
-    </Router>
+    <div className={classes.root}>
+      <Container>
+        <div>
+          <Grid container className="content-root">
+            {playlists.map((playlist) => (
+              <PlaylistCarousel key={playlist.id} playlistId={playlist.id} />
+            ))}
+          </Grid>
+        </div>
+      </Container>
+    </div>
   );
 };
 

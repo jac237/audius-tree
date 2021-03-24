@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { MusicContext } from '../MusicContext';
@@ -78,6 +79,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 2,
     color: '#01CECE',
   },
+  routerLink: {
+    textDecoration: 'none',
+    color: 'gray',
+    '&:hover': {
+      textDecoration: 'underline',
+      color: 'white',
+    },
+  },
 }));
 
 const TrackTileCard = (props) => {
@@ -124,7 +133,10 @@ const TrackTileCard = (props) => {
               {track?.title}
             </Typography>
             <Typography className={classes.handle} variant="body2" noWrap>
-              <Link href={`/user/${track?.user?.handle}`} color="inherit">
+              <Link
+                to={`/user/${track?.user?.handle}`}
+                className={classes.routerLink}
+              >
                 {track?.user?.name}
               </Link>
               {track?.user?.is_verified && (

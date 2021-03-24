@@ -96,49 +96,48 @@ const Search = ({ match }) => {
   }
 
   return (
-    <Router>
-      <Grid container className={classes.root} spacing={2}>
-        <Grid item container justify="center">
-          <Grid item xs={10}>
-            <Paper
-              component="form"
-              onSubmit={handleSearch}
-              className={classes.paper}
-            >
-              <Grid item container justify="space-between" alignItems="center">
-                <Grid item>
-                  <IconButton disabled aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </Grid>
-
-                <Grid item xs>
-                  <InputBase
-                    fullWidth
-                    value={inputValue}
-                    onChange={handleQueryChange}
-                    placeholder="Artists, songs, or playlists"
-                    inputProps={{ 'aria-label': 'search audius tree' }}
-                  />
-                </Grid>
-
-                <Grid item>
-                  <IconButton onClick={handleSearch} aria-label="search">
-                    <SubdirectoryArrowLeftIcon />
-                  </IconButton>
-                </Grid>
+    <Grid container className={classes.root} spacing={2}>
+      <Grid item container justify="center">
+        <Grid item xs={10}>
+          <Paper
+            component="form"
+            onSubmit={handleSearch}
+            className={classes.paper}
+          >
+            <Grid item container justify="space-between" alignItems="center">
+              <Grid item>
+                <IconButton disabled aria-label="search">
+                  <SearchIcon />
+                </IconButton>
               </Grid>
-            </Paper>
-          </Grid>
+
+              <Grid item xs>
+                <InputBase
+                  fullWidth
+                  value={inputValue}
+                  onChange={handleQueryChange}
+                  placeholder="Artists, songs, or playlists"
+                  inputProps={{ 'aria-label': 'search audius tree' }}
+                />
+              </Grid>
+
+              <Grid item>
+                <IconButton onClick={handleSearch} aria-label="search">
+                  <SubdirectoryArrowLeftIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
+      </Grid>
 
-        {(usersLoading || tracksLoading || playlistsLoading) && (
-          <CircularProgress
-            style={{ margin: 'auto', padding: 20, color: '#029494' }}
-          />
-        )}
+      {(usersLoading || tracksLoading || playlistsLoading) && (
+        <CircularProgress
+          style={{ margin: 'auto', padding: 20, color: '#029494' }}
+        />
+      )}
 
-        {/* {!usersResults?.getUsersBySearch && !tracksResults?.getTracksBySearch && (
+      {/* {!usersResults?.getUsersBySearch && !tracksResults?.getTracksBySearch && (
           <Grid item container alignItems="center" justify="center" spacing={2}>
             <Grid item xs={10}>
               <Typography variant="inherit" component="h2">
@@ -174,52 +173,50 @@ const Search = ({ match }) => {
           </Grid>
         )} */}
 
-        {(usersResults?.getUsersBySearch ||
-          tracksResults?.getTracksBySearch) && (
-          <Grid item container alignItems="center" justify="center" spacing={1}>
-            <Grid item xs={10}>
-              <Typography variant="inherit" component="h2">
-                Results
-              </Typography>
-            </Grid>
-
-            {usersResults?.getUsersBySearch && (
-              <Grid item container xs={10} spacing={2}>
-                {usersResults.getUsersBySearch.map((user) => (
-                  <Grid item key={user.id} xs={6} sm={4} md={3} lg={2}>
-                    <UserTileCard user={user}></UserTileCard>
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-
-            {tracksResults?.getTracksBySearch && (
-              <Grid item container xs={10} spacing={1}>
-                {tracksResults.getTracksBySearch.map((track, index) => (
-                  <Grid item key={track.id} xs={12}>
-                    <TrackRowCard
-                      track={track}
-                      index={index}
-                      playlist={tracksResults.getTracksBySearch}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-
-            {playlistsResults?.searchPlaylists && (
-              <Grid item container xs={10} spacing={1}>
-                {playlistsResults.searchPlaylists.map((playlist) => (
-                  <Grid item key={playlist.id} xs={12}>
-                    <PlaylistRowCard playlist={playlist}></PlaylistRowCard>
-                  </Grid>
-                ))}
-              </Grid>
-            )}
+      {(usersResults?.getUsersBySearch || tracksResults?.getTracksBySearch) && (
+        <Grid item container alignItems="center" justify="center" spacing={1}>
+          <Grid item xs={10}>
+            <Typography variant="inherit" component="h2">
+              Results
+            </Typography>
           </Grid>
-        )}
-      </Grid>
-    </Router>
+
+          {usersResults?.getUsersBySearch && (
+            <Grid item container xs={10} spacing={2}>
+              {usersResults.getUsersBySearch.map((user) => (
+                <Grid item key={user.id} xs={6} sm={4} md={3} lg={2}>
+                  <UserTileCard user={user}></UserTileCard>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {tracksResults?.getTracksBySearch && (
+            <Grid item container xs={10} spacing={1}>
+              {tracksResults.getTracksBySearch.map((track, index) => (
+                <Grid item key={track.id} xs={12}>
+                  <TrackRowCard
+                    track={track}
+                    index={index}
+                    playlist={tracksResults.getTracksBySearch}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {playlistsResults?.searchPlaylists && (
+            <Grid item container xs={10} spacing={1}>
+              {playlistsResults.searchPlaylists.map((playlist) => (
+                <Grid item key={playlist.id} xs={12}>
+                  <PlaylistRowCard playlist={playlist}></PlaylistRowCard>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Grid>
+      )}
+    </Grid>
   );
 };
 

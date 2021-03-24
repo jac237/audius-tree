@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Icon from '@material-ui/core/Icon';
@@ -78,6 +79,14 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     '&:hover': {
       cursor: 'pointer',
+    },
+  },
+  routerLink: {
+    textDecoration: 'none',
+    color: 'gray',
+    '&:hover': {
+      textDecoration: 'underline',
+      color: 'white',
     },
   },
 }));
@@ -155,7 +164,10 @@ const TrackRowCard = (props) => {
               noWrap
               gutterBottom
             >
-              <Link href={`/user/${track.user.handle}`} color="inherit">
+              <Link
+                to={`/user/${track.user.handle}`}
+                className={classes.routerLink}
+              >
                 {track.user.name}
               </Link>
               {track.user.is_verified && (

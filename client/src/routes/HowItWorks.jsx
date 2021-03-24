@@ -10,13 +10,11 @@ const HowItWorks = ({ match }) => {
   console.log(match);
 
   return (
-    <Router>
-      <div className="content">
-        <div className="content__body">
-          <h3>FEEDBACK</h3>{' '}
-        </div>
+    <div className="content">
+      <div className="content__body">
+        <h3>FEEDBACK</h3>{' '}
       </div>
-    </Router>
+    </div>
   );
 };
 

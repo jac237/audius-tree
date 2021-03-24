@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import Grid from '@material-ui/core/Grid';
 import { USER_BY_ID } from '../../graphql';
@@ -45,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 2,
     color: '#01CECE',
   },
+  routerLink: {
+    textDecoration: 'none',
+    color: 'white',
+  },
 }));
 
 const UserTileCard = ({ user }) => {
@@ -60,7 +65,7 @@ const UserTileCard = ({ user }) => {
       spacing={1}
     >
       <Grid item>
-        <Link href={`/user/${user.handle}`}>
+        <Link to={`/user/${user.handle}`} className={classes.routerLink}>
           <Avatar
             className={classes.media}
             src={
