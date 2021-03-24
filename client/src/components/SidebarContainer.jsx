@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -94,19 +95,21 @@ function SidebarContainer(props) {
       </Link>
       <Divider />
       {/** NAVIGATION */}
-      <List
-        subheader={
-          <ListSubheader color="inherit" className={classes.subheader}>
-            Made with{' '}
-            <FavoriteIcon
-              color="secondary"
-              style={{ fontSize: 15, verticalAlign: 'middle' }}
-            />{' '}
-            using Audius API
-          </ListSubheader>
-        }
+      <Typography
+        variant="inherit"
+        align="center"
+        component="h5"
+        className={classes.subheader}
       >
-        <ListItem button disabled key="search" component={Link} to="/search">
+        Made with{' '}
+        <FavoriteIcon
+          color="secondary"
+          style={{ fontSize: 15, verticalAlign: 'middle' }}
+        />{' '}
+        using Audius API
+      </Typography>
+      <List>
+        <ListItem button key="search" component={Link} to="/search">
           <ListItemIcon>
             <SearchIcon className={classes.listIcon} />
           </ListItemIcon>
@@ -172,7 +175,11 @@ function SidebarContainer(props) {
           rel="noopener"
         >
           <ListItemIcon>
-            <img src="https://i.imgur.com/UVSBxyJ.png" width="24px" />
+            <img
+              src="https://i.imgur.com/UVSBxyJ.png"
+              width="24px"
+              height="23px"
+            />
           </ListItemIcon>
           <ListItemText disableTypography primary="Audius" />
         </ListItem>
@@ -284,6 +291,8 @@ function SidebarContainer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {children}
+        <div className={classes.toolbar} />
+        <div className={classes.toolbar} />
       </main>
     </div>
   );
