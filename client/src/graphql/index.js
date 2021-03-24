@@ -143,6 +143,54 @@ const USER_SEARCH = gql`
   }
 `;
 
+const TRACK_SEARCH = gql`
+  query GetTracksBySearch($query: String!) {
+    getTracksBySearch(query: $query) {
+      id
+      title
+      mood
+      favorite_count
+      play_count
+      repost_count
+      duration
+      streamUrl
+      artwork {
+        x150
+      }
+      user {
+        id
+        name
+        handle
+        is_verified
+      }
+    }
+  }
+`;
+
+const PLAYLIST_SEARCH = gql`
+  query SearchPlaylists($query: String!) {
+    searchPlaylists(query: $query) {
+      description
+      id
+      is_album
+      playlist_name
+      repost_count
+      favorite_count
+      total_play_count
+      user {
+        id
+        name
+        handle
+        is_verified
+      }
+      artwork {
+        x150
+        x480
+      }
+    }
+  }
+`;
+
 const TRACK_SOURCE = gql`
   query GetTrackSource($trackId: ID!) {
     getTrackSource(trackId: $trackId)
@@ -200,6 +248,8 @@ export {
   TRENDING_TRACKS,
   TRACK_SOURCE,
   USER_SEARCH,
+  TRACK_SEARCH,
+  PLAYLIST_SEARCH,
   GET_PLAYLIST,
   GET_PLAYLIST_TRACKS,
   GET_USER_TAGS,
