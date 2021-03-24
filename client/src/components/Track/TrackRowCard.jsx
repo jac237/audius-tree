@@ -115,97 +115,95 @@ const TrackRowCard = (props) => {
         }}
       />
       <CardContent classes={{ root: classes.content }}>
-        <Grid item container direction="column">
-          <Grid item container justify="space-between" xs>
-            <Grid item>
-              {track.mood && (
-                <Chip
-                  className={classes.chip}
-                  variant="outlined"
-                  label={track.mood}
-                  size="small"
-                />
+        <Grid item container justify="space-between" xs>
+          <Grid item>
+            {track.mood && (
+              <Chip
+                className={classes.chip}
+                variant="outlined"
+                label={track.mood}
+                size="small"
+              />
+            )}
+          </Grid>
+
+          <Grid item>
+            <Typography
+              className={classes.time}
+              variant="caption"
+              color="inherit"
+              align="right"
+            >
+              {TimeFormat.fromS(track.duration)}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item container wrap="nowrap">
+          <Grid item zeroMinWidth>
+            <Typography
+              color="inherit"
+              component="h4"
+              variant="inherit"
+              gutterBottom
+            >
+              {track.title}
+            </Typography>
+            <Typography
+              className={classes.handle}
+              variant="body2"
+              noWrap
+              gutterBottom
+            >
+              <Link href={`/user/${track.user.handle}`} color="inherit">
+                {track.user.name}
+              </Link>
+              {track.user.is_verified && (
+                <VerifiedIcon className={classes.verified} fontSize="small" />
               )}
-            </Grid>
+            </Typography>
+          </Grid>
+        </Grid>
 
-            <Grid item>
-              <Typography
-                className={classes.time}
-                variant="caption"
-                color="inherit"
-                align="right"
-              >
-                {TimeFormat.fromS(track.duration)}
-              </Typography>
-            </Grid>
+        <Grid item container justify="space-between">
+          <Grid item>
+            <Typography variant="body2" style={{ color: 'gray' }}>
+              <Icon className="fas fa-play" style={{ fontSize: 10 }} />{' '}
+              {track.play_count.toLocaleString()}
+            </Typography>
           </Grid>
 
-          <Grid item container wrap="nowrap">
-            <Grid item zeroMinWidth>
-              <Typography
-                color="inherit"
-                component="h4"
-                variant="inherit"
-                gutterBottom
+          <Grid item>
+            <a
+              aria-label="delete"
+              onClick={handleMenuOpen}
+              className={classes.menuButton}
+            >
+              <MoreHorizIcon style={{ color: 'gray' }} />
+            </a>
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={isMenuOpen}
+              onClose={handleMenuClose}
+            >
+              <MenuItem
+                component="a"
+                href={`https://audius.co/${track?.user?.handle}`}
               >
-                {track.title}
-              </Typography>
-              <Typography
-                className={classes.handle}
-                variant="body2"
-                noWrap
-                gutterBottom
+                <Typography variant="body2" component="h4">
+                  View artist on Audius
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                component="a"
+                href={`https://audius.co/tracks/${track.id}`}
               >
-                <Link href={`/user/${track.user.handle}`} color="inherit">
-                  {track.user.name}
-                </Link>
-                {track.user.is_verified && (
-                  <VerifiedIcon className={classes.verified} fontSize="small" />
-                )}
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid item container justify="space-between">
-            <Grid item>
-              <Typography variant="body2" style={{ color: 'gray' }}>
-                <Icon className="fas fa-play" style={{ fontSize: 10 }} />{' '}
-                {track.play_count.toLocaleString()}
-              </Typography>
-            </Grid>
-
-            <Grid item>
-              <a
-                aria-label="delete"
-                onClick={handleMenuOpen}
-                className={classes.menuButton}
-              >
-                <MoreHorizIcon style={{ color: 'gray' }} />
-              </a>
-              <Menu
-                anchorEl={anchorEl}
-                keepMounted
-                open={isMenuOpen}
-                onClose={handleMenuClose}
-              >
-                <MenuItem
-                  component="a"
-                  href={`https://audius.co/${track?.user?.handle}`}
-                >
-                  <Typography variant="body2" component="h4">
-                    View artist on Audius
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  component="a"
-                  href={`https://audius.co/tracks/${track.id}`}
-                >
-                  <Typography variant="body2" component="h4">
-                    View track on Audius
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Grid>
+                <Typography variant="body2" component="h4">
+                  View track on Audius
+                </Typography>
+              </MenuItem>
+            </Menu>
           </Grid>
         </Grid>
       </CardContent>
