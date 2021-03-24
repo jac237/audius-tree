@@ -8,7 +8,8 @@ const classes = {
     marginTop: 0,
   },
   chip: {
-    background: 'lightgray',
+    background: '#c3c3c3',
+    color: 'black',
     borderRadius: 5,
     fontSize: '0.7rem',
     fontWeight: 'bold',
@@ -36,13 +37,7 @@ const Tags = ({ string }) => {
     <Grid container spacing={1} style={classes.root}>
       {tags.map((tag) => (
         <Grid item key={tag}>
-          <Chip
-            clickable
-            centerRipple
-            size="small"
-            label={`#${tag.trim()}`}
-            style={classes.chip}
-          />
+          <Chip size="small" label={`#${tag.trim()}`} style={classes.chip} />
         </Grid>
       ))}
     </Grid>

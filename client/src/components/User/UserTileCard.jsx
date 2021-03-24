@@ -47,27 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserTileCard = ({ userId }) => {
+const UserTileCard = ({ user }) => {
   const classes = useStyles();
-  const [name, setName] = useState('');
-  const [user, setUser] = useState({});
-  const [cover, setCover] = useState(
-    'https://media.tarkett-image.com/large/TH_24567081_24594081_24596081_24601081_24563081_24565081_24588081_001.jpg'
-  );
-  const { loading, error, data } = useQuery(USER_BY_ID, {
-    variables: { userId },
-  });
-
-  useEffect(() => {
-    if (data?.getUserById) {
-      // console.log('UserTileCard', data.getUserById);
-      setUser(data.getUserById);
-      setName(data.getUserById.name);
-      setCover(data.getUserById.profile_picture.x150);
-    }
-  }, [data]);
-
-  if (error) return console.log(error);
+  const defaultCover = 'https://i.imgur.com/iajv7J1.png';
 
   return (
     <Grid
@@ -78,19 +60,20 @@ const UserTileCard = ({ userId }) => {
       spacing={1}
     >
       <Grid item>
-        <Link href={`/${user.handle}`}>
+        <Link href={`/user/${user.handle}`}>
           <Avatar
             className={classes.media}
-            src={cover}
-            title={name}
+            src={
+              user.profile_picture ? user.profile_picture.x150 : defaultCover
+            }
+            title={user.name}
             aria-label="user profile photo"
-            href={`/${user.handle}`}
           />
         </Link>
       </Grid>
       <Grid item>
         <Typography className={classes.handle} variant="inherit" noWrap>
-          {name}
+          {user.name}
           {user?.is_verified && (
             <VerifiedIcon className={classes.verified} fontSize="small" />
           )}

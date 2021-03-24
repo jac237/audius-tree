@@ -1,24 +1,22 @@
 /* eslint-disable react/prop-types */
-import { useLazyQuery } from '@apollo/client';
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { useQuery } from '@apollo/client';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import { TrackRowCard } from '../Track';
 import { USER_TRACKS } from '../../graphql';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     color: 'white',
     backgroundColor: '#121212',
-    paddingBottom: theme.spacing(10),
   },
   content: {
     margin: 'auto',
-    maxWidth: 550,
+    flexGrow: 1,
     minWidth: 320,
   },
   icon: {
@@ -48,51 +46,46 @@ const useStyles = makeStyles((theme) => ({
 const UserTracksPaper = (props) => {
   const classes = useStyles();
   const { userId } = props;
-  const [getTracks, { loading, error, data }] = useLazyQuery(USER_TRACKS);
-  const [tracks, setTracks] = useState([]);
-
-  useEffect(() => {
-    getTracks({ variables: { userId } });
-  }, []);
-
-  useEffect(() => {
-    if (data?.getUserTracks) {
-      // console.log(data.getUserTracks);
-      setTracks(data.getUserTracks);
-    }
-  }, [data]);
-
-  if (error) return `${error}`;
+  const { loading, error, data: tracksData } = useQuery(USER_TRACKS, {
+    variables: { userId },
+  });
+  //{ getUserTracks: tracks }
+  if (error) {
+    console.log(error.message);
+  }
 
   return (
-    <Paper className={classes.root} square>
-      <div className={classes.content}>
-        {/* <Paper square className={classes.paper}>
-          <Tabs className={classes.tabs} value={0} textColor="inherit">
-            <Tab
-              label="Tracks"
-              id="back-to-tracks-anchor"
-              disableFocusRipple
-              disableRipple
-            />
-          </Tabs>
-        </Paper> */}
-        {tracks.map((track) => (
-          <TrackRowCard key={track.id} track={track} />
-        ))}
-      </div>
-      {tracks.length === 0 && !loading && !data && (
-        <Typography
-          className={classes.empty}
-          color="inherit"
-          variant="inherit"
-          component="h4"
-          align="center"
-        >
-          Uh Oh! This user has no tracks... Come back later!
-        </Typography>
-      )}
-    </Paper>
+    <Container maxWidth="md" className={classes.root}>
+      <Grid item container alignItems="center" justify="center" spacing={1}>
+        <Grid item container spacing={1}>
+          {tracksData?.getUserTracks &&
+            tracksData.getUserTracks.map((track, index) => (
+              <Grid item key={track.id} xs={12}>
+                <TrackRowCard
+                  key={track.id}
+                  track={track}
+                  index={index}
+                  playlist={tracksData.getUserTracks}
+                />
+              </Grid>
+            ))}
+        </Grid>
+      </Grid>
+
+      {!loading &&
+        tracksData?.getUserTracks &&
+        tracksData.getUserTracks.length === 0 && (
+          <Typography
+            className={classes.empty}
+            color="inherit"
+            variant="inherit"
+            component="h4"
+            align="center"
+          >
+            Uh Oh! This user has no tracks... Come back later!
+          </Typography>
+        )}
+    </Container>
   );
 };
 
