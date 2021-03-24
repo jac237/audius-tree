@@ -1,62 +1,92 @@
-import { useLazyQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import MusicBar from '../components/MusicBar';
+import { useQuery } from '@apollo/client';
+import { USER_BY_HANDLE } from '../graphql';
+import Grid from '@material-ui/core/Grid';
+import Skeleton from '@material-ui/lab/Skeleton';
+
 import UserStatsCard from '../components/User/UserStatsCard';
 import UserTracksPaper from '../components/User/UserTracksPaper';
-import { USER_BY_HANDLE, TRACK_SOURCE } from '../graphql';
+
+/**
+ * Banner
+ * Avatar / Stats
+ * Name
+ * Handle
+ * Description
+ * Location
+ */
+const LoadingUserStats = () => {
+  return (
+    <Grid container direction="column" spacing={2} alignItems="center">
+      <Grid item container xs>
+        <Skeleton variant="rect" width="100%" height={250} />
+      </Grid>
+
+      <Grid item container xs={8} spacing={4}>
+        <Grid item>
+          <Skeleton variant="circle" width={100} height={100} />
+        </Grid>
+        <Grid item xs>
+          <Skeleton variant="rect" width="100%" height={100} />
+        </Grid>
+      </Grid>
+
+      <Grid item container xs={8}>
+        <Grid item xs>
+          <Skeleton variant="rect" width="30%" height={50} />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
+
+/**
+ * Image / ( Mood, Title, Name, Stats )
+ */
+const LoadingUserTrack = () => {
+  return (
+    <Grid container direction="column" alignItems="center">
+      <Grid item container spacing={2} xs={8}>
+        <Grid item>
+          <Skeleton variant="rect" width={100} height={100} />
+        </Grid>
+
+        <Grid item xs>
+          <Skeleton variant="rect" width="70%" height={25} />
+          <Skeleton variant="text" width="30%" />
+          <Skeleton variant="text" height={50} />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
 
 const User = ({ match }) => {
   const handle = match.params.handle;
-  const [user, setUser] = useState({});
-  const [getUser, { loading, error, data }] = useLazyQuery(USER_BY_HANDLE);
-  const [getTrackSource, { data: sourceTrack }] = useLazyQuery(TRACK_SOURCE);
+  const { loading, error, data: userData } = useQuery(USER_BY_HANDLE, {
+    variables: { handle },
+  });
 
-  const [currentSong, setCurrentSong] = useState(null);
-  const [trackSource, setTrackSource] = useState(null);
-
-  useEffect(() => {
-    getUser({ variables: { handle } });
-  }, []);
-
-  useEffect(() => {
-    if (data?.getUserByHandle) {
-      console.log(data.getUserByHandle);
-      setUser(data.getUserByHandle);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (currentSong?.id) {
-      console.log(currentSong);
-      getTrackSource({ variables: { trackId: currentSong.id } });
-    }
-  }, [currentSong]);
-
-  useEffect(() => {
-    if (sourceTrack?.getTrackSource) {
-      setTrackSource(sourceTrack.getTrackSource);
-    }
-  }, [sourceTrack]);
-
-  if (loading || !user) return 'Loading...';
-  if (error) return `${error}`;
+  if (error) console.log(error.message);
 
   return (
     <Router>
-      <div className="content">
-        <div className="content__body">
-          {user.id && (
-            <>
-              <UserStatsCard user={user} />
-              <UserTracksPaper
-                userId={user.id}
-                setCurrentSong={setCurrentSong}
-              />
-            </>
-          )}
-          <MusicBar currentSong={currentSong} trackSource={trackSource} />
-        </div>
+      <div>
+        {error || loading || !userData?.getUserByHandle ? (
+          <>
+            <LoadingUserStats />
+            <br />
+            <LoadingUserTrack />
+          </>
+        ) : (
+          <>
+            <UserStatsCard user={userData.getUserByHandle} />
+            <UserTracksPaper userId={userData.getUserByHandle.id} />
+          </>
+        )}
       </div>
     </Router>
   );

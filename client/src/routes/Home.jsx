@@ -5,8 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import MusicBar from '../components/MusicBar';
-import Playlist from '../components/Playlist';
+import PlaylistCarousel from '../components/PlaylistCarousel';
 
 const playlists = require('../data/featuredPlaylists.json');
 
@@ -15,41 +14,23 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     backgroundColor: '#121212',
   },
-  content: {
-    paddingBottom: theme.spacing(11),
-  },
 }));
 
 const Home = () => {
   const classes = useStyles();
 
-  // Move to Music Storage using Redux
-  // const [currentSong, setCurrentSong] = useState(null);
-  // const [trackSource, setTrackSource] = useState(null);
-  // useEffect(() => {
-  //   console.log(currentSong);
-  //   if (currentSong?.id) {
-  //     setTrackSource(currentSong.streamUrl);
-  //   }
-  // }, [currentSong]);
-
   return (
     <Router>
       <div className={classes.root}>
         <Container>
-          <div className={classes.content}>
+          <div>
             <Grid container className="content-root">
               {playlists.map((playlist) => (
-                <Playlist
-                  key={playlist.id}
-                  id={playlist.id}
-                  // setCurrentSong={setCurrentSong}
-                />
+                <PlaylistCarousel key={playlist.id} playlistId={playlist.id} />
               ))}
             </Grid>
           </div>
         </Container>
-        {/* <MusicBar /> */}
       </div>
     </Router>
   );
