@@ -53,7 +53,7 @@ module.exports = {
     getUsersBySearch(_, { query }) {
       return audius
         .getUsersBySearch(query)
-        .then((user) => user)
+        .then((users) => users)
         .catch((err) => {
           throw new Error(err);
         });

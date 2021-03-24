@@ -36,8 +36,24 @@ const getTrackSource = async (trackId) => {
   return `${host}/v1/tracks/${trackId}/stream?app_name=${appName}`;
 };
 
+const getTracksBySearch = async (query) => {
+  if (!query) return [];
+  const host = await selectHost();
+  return axios({
+    method: 'GET',
+    url: `${host}/v1/tracks/search?query=${query}&app_name=${appName}`,
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+    .then((res) => res.data)
+    .then((json) => json.data)
+    .catch((err) => console.log(err));
+};
+
 module.exports = {
   getTrackById,
   getTrendingTracks,
   getTrackSource,
+  getTracksBySearch,
 };

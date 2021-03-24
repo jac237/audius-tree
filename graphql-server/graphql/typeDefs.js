@@ -77,6 +77,7 @@ const typeDefs = gql`
     getTrackById(trackId: ID!): Track
     getTrendingTracks(genre: String, time: String): [Track]
     getTrackSource(trackId: ID!): String
+    getTracksBySearch(query: String!): [Track]
 
     searchPlaylists(query: String!): [Playlist]
     getPlaylist(playlistId: ID!): Playlist

@@ -26,5 +26,13 @@ module.exports = {
           throw new Error(err);
         });
     },
+    getTracksBySearch(_, { query }) {
+      return audius
+        .getTracksBySearch(query)
+        .then((tracks) => tracks)
+        .catch((err) => {
+          throw new Error(err);
+        });
+    },
   },
 };
