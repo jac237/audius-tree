@@ -11,7 +11,17 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Icon from '@material-ui/core/Icon';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
-import { MusicContext } from '../MusicContext';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import TimeFormat from 'hh-mm-ss';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurrTrack,
+  setCurrIndex,
+  setCurrPlaylist,
+} from '../../redux/player/playerSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,23 +29,22 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     color: 'white',
     backgroundColor: '#333232',
-    borderRadius: '8px',
-    maxWidth: 900,
+    borderRadius: '4px',
     minWidth: 312,
-    marginBottom: theme.spacing(1.5),
     padding: theme.spacing(0.5),
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
     padding: theme.spacing(0.5),
     '&:last-child': {
-      paddingBottom: theme.spacing(1),
+      paddingBottom: 0,
     },
   },
   img: {
     padding: theme.spacing(1),
-    width: 105,
-    height: 105,
+    width: 100,
+    height: 100,
+    borderRadius: theme.spacing(2),
     '&:hover': {
       cursor: 'pointer',
     },
@@ -66,54 +75,48 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'visible',
     },
   },
+  menuButton: {
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
 }));
 
 const TrackRowCard = (props) => {
   const classes = useStyles();
-  const { track } = props;
-  const [currPlaylist, setCurrPlaylist, currTrack, setCurrTrack] = useContext(
-    MusicContext
-  );
-  const [time, setTime] = useState('');
+  const { track, index, playlist } = props;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const dispatch = useDispatch();
+  const defaultCover = 'https://i.imgur.com/iajv7J1.png';
 
-  useEffect(() => {
-    // Source: https://stackoverflow.com/questions/3733227/javascript-seconds-to-minutes-and-seconds
-    // Output: "1:01" or "4:03:59" or "123:03:59"
-    const timeDisplay = (duration) => {
-      // Hours, minutes and seconds
-      const hrs = ~~(duration / 3600);
-      const mins = ~~((duration % 3600) / 60);
-      const secs = ~~duration % 60;
-      let ret = '';
-      if (hrs > 0) {
-        ret += '' + hrs + ':' + (mins < 10 ? '0' : '');
-      }
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-      ret += '' + mins + ':' + (secs < 10 ? '0' : '');
-      ret += '' + secs;
-      return ret;
-    };
-    setTime(timeDisplay(track.duration));
-  }, [track]);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Card className={classes.root} elevation={1} square>
       <CardMedia
         className={classes.img}
         component="img"
-        src={
-          track.artwork ? track.artwork.x150 : 'https://i.imgur.com/iajv7J1.png'
-        }
-        title="Song Artwork"
+        src={track?.artwork ? track.artwork.x150 : defaultCover}
+        title={track.title}
         onClick={() => {
           if (track) {
-            setCurrTrack(track);
+            console.log('setting new track!');
+            dispatch(setCurrTrack(track));
+            dispatch(setCurrIndex(index));
+            dispatch(setCurrPlaylist(playlist));
           }
         }}
       />
       <CardContent classes={{ root: classes.content }}>
-        <Grid container direction="column">
-          <Grid item container direction="row" justify="space-between">
+        <Grid item container direction="column">
+          <Grid item container justify="space-between" xs>
             <Grid item>
               {track.mood && (
                 <Chip
@@ -124,6 +127,7 @@ const TrackRowCard = (props) => {
                 />
               )}
             </Grid>
+
             <Grid item>
               <Typography
                 className={classes.time}
@@ -131,70 +135,77 @@ const TrackRowCard = (props) => {
                 color="inherit"
                 align="right"
               >
-                {time}
+                {TimeFormat.fromS(track.duration)}
               </Typography>
             </Grid>
           </Grid>
-          <Grid item>
-            <Typography color="inherit" component="h4" variant="inherit">
-              {track.title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography
-              className={classes.handle}
-              variant="body2"
-              noWrap
-              gutterBottom
-            >
-              <Link
-                href={`https://audius.co/${track.user.handle}`}
+
+          <Grid item container wrap="nowrap">
+            <Grid item zeroMinWidth>
+              <Typography
                 color="inherit"
+                component="h4"
+                variant="inherit"
+                gutterBottom
               >
-                {track.user.name}
-              </Link>
-              {track.user.is_verified && (
-                <VerifiedIcon className={classes.verified} fontSize="small" />
-              )}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid item container direction="row" alignItems="center">
-          <Grid item>
-            <Button
-              className={classes.button}
-              startIcon={<Icon className="fas fa-play" fontSize="small" />}
-              href={`https://audius.co/tracks/${track.id}`}
-            >
-              {track.favorite_count}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              className={classes.button}
-              startIcon={<Icon className="fas fa-heart" fontSize="small" />}
-              href={`https://audius.co/tracks/${track.id}`}
-            >
-              {track.play_count}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              className={classes.button}
-              startIcon={<Icon className="fas fa-retweet" fontSize="small" />}
-              href={`https://audius.co/tracks/${track.id}`}
-            >
-              {track.repost_count}
-            </Button>
+                {track.title}
+              </Typography>
+              <Typography
+                className={classes.handle}
+                variant="body2"
+                noWrap
+                gutterBottom
+              >
+                <Link href={`/user/${track.user.handle}`} color="inherit">
+                  {track.user.name}
+                </Link>
+                {track.user.is_verified && (
+                  <VerifiedIcon className={classes.verified} fontSize="small" />
+                )}
+              </Typography>
+            </Grid>
           </Grid>
 
-          <Grid item>
-            <Button
-              className={classes.button}
-              href={`https://audius.co/tracks/${track.id}`}
-            >
-              <Icon className="fas fa-share" fontSize="small" />
-            </Button>
+          <Grid item container justify="space-between">
+            <Grid item>
+              <Typography variant="body2" style={{ color: 'gray' }}>
+                <Icon className="fas fa-play" style={{ fontSize: 10 }} />{' '}
+                {track.play_count.toLocaleString()}
+              </Typography>
+            </Grid>
+
+            <Grid item>
+              <a
+                aria-label="delete"
+                onClick={handleMenuOpen}
+                className={classes.menuButton}
+              >
+                <MoreHorizIcon style={{ color: 'gray' }} />
+              </a>
+              <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+              >
+                <MenuItem
+                  component="a"
+                  href={`https://audius.co/${track?.user?.handle}`}
+                >
+                  <Typography variant="body2" component="h4">
+                    View artist on Audius
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  component="a"
+                  href={`https://audius.co/tracks/${track.id}`}
+                >
+                  <Typography variant="body2" component="h4">
+                    View track on Audius
+                  </Typography>
+                </MenuItem>
+              </Menu>
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>

@@ -8,8 +8,13 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { TRACK_BY_ID } from '../../graphql';
 import { MusicContext } from '../MusicContext';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurrTrack,
+  setCurrIndex,
+  setCurrPlaylist,
+} from '../../redux/player/playerSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,40 +80,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const emptyTrack = {
-  title: '',
-  user: {
-    handle: '',
-  },
-};
-
 const TrackTileCard = (props) => {
   const classes = useStyles();
-  const { trackData } = props;
-  const [currPlaylist, setCurrPlaylist, currTrack, setCurrTrack] = useContext(
-    MusicContext
-  );
-  // const { loading, error, data } = useQuery(TRACK_BY_ID, {
-  //   variables: { trackId },
-  // });
-
-  const [name, setName] = useState('');
-  const [track, setTrack] = useState(emptyTrack);
-  const [cover, setCover] = useState(
-    'https://media.tarkett-image.com/large/TH_24567081_24594081_24596081_24601081_24563081_24565081_24588081_001.jpg'
-  );
-
-  useEffect(() => {
-    if (trackData) {
-      setTrack(trackData);
-      setName(trackData.user.name);
-      setCover(trackData.artwork.x150);
-    }
-  }, [trackData]);
+  const defaultCover = 'https://i.imgur.com/iajv7J1.png';
+  const { track, index, playlist } = props;
+  const dispatch = useDispatch();
+  // const currTrack = useSelector((state) => state.player.currTrack);
+  // const currIndex = useSelector((state) => state.player.currIndex);
 
   return (
     <Card className={classes.root} elevation={0}>
-      {!trackData ? (
+      {!track ? (
         <Skeleton
           variant="rect"
           width={150}
@@ -120,12 +102,14 @@ const TrackTileCard = (props) => {
           <CardMedia
             className={classes.media}
             component="img"
-            src={cover}
+            src={track.artwork ? track.artwork.x150 : defaultCover}
             title={track?.title}
             onClick={() => {
-              if (trackData) {
-                console.log('setting new track!', trackData);
-                setCurrTrack(trackData);
+              if (track) {
+                console.log('setting new track!', track);
+                dispatch(setCurrTrack(track));
+                dispatch(setCurrIndex(index));
+                dispatch(setCurrPlaylist(playlist));
               }
             }}
           />
@@ -141,7 +125,7 @@ const TrackTileCard = (props) => {
             </Typography>
             <Typography className={classes.handle} variant="body2" noWrap>
               <Link href={`/user/${track?.user?.handle}`} color="inherit">
-                {name}
+                {track?.user?.name}
               </Link>
               {track?.user?.is_verified && (
                 <VerifiedIcon className={classes.verified} fontSize="small" />
