@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import PlaylistCarousel from '../components/PlaylistCarousel';
+import { UserReposts } from '../components/User';
 
 const playlists = require('../data/featuredPlaylists.json');
 
@@ -23,11 +24,12 @@ const Home = () => {
     <div className={classes.root}>
       <Container>
         <div>
-          <Grid container className="content-root">
+          <Grid container>
             {playlists.map((playlist) => (
               <PlaylistCarousel key={playlist.id} playlistId={playlist.id} />
             ))}
           </Grid>
+          <UserReposts />
         </div>
       </Container>
     </div>

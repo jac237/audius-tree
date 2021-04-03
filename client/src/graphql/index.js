@@ -232,6 +232,28 @@ const GET_PLAYLIST_TRACKS = gql`
     }
   }
 `;
+const GET_USER_REPOSTS = gql`
+  query GetUserReposts($userId: ID!) {
+    getUserReposts(userId: $userId) {
+      timestamp
+      item_type
+      item {
+        ... on Track {
+          id
+          title
+        }
+        ... on Playlist {
+          id
+          playlist_name
+          description
+          artwork {
+            x150
+          }
+        }
+      }
+    }
+  }
+`;
 
 const GET_USER_TAGS = gql`
   query GetUserTags($userId: ID!) {
@@ -253,4 +275,5 @@ export {
   GET_PLAYLIST,
   GET_PLAYLIST_TRACKS,
   GET_USER_TAGS,
+  GET_USER_REPOSTS,
 };
