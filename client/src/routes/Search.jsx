@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 import { USER_SEARCH, TRACK_SEARCH, PLAYLIST_SEARCH } from '../graphql';
 import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -45,9 +46,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 const Search = ({ match }) => {
-  // console.log(match);
+  let query = useQuery();
   const classes = useStyles();
+  const history = useHistory();
   const [inputValue, setInputValue] = useState('');
   const [
     getUsersResults,
@@ -66,14 +72,28 @@ const Search = ({ match }) => {
     },
   ] = useLazyQuery(PLAYLIST_SEARCH);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!inputValue) return;
+  useEffect(() => {
+    console.log('useEffect ran', query.get('query'));
+    setInputValue(query.get('query'));
+    handleSearch(null, query.get('query'));
+  }, []);
 
-    console.log('Searching w/ query: ', inputValue);
-    getUsersResults({ variables: { query: inputValue } });
-    getTracksResults({ variables: { query: inputValue } });
-    getPlaylistsResults({ variables: { query: inputValue } });
+  const handleSearch = (e = null, value = null) => {
+    if (e) e.preventDefault();
+    if (!value && !inputValue) return;
+
+    const queryValue = inputValue ? inputValue : value;
+    const params = new URLSearchParams();
+
+    params.append('query', queryValue);
+    history.push({ search: params.toString() });
+
+    console.log('Searching w/ query: ', queryValue);
+    getUsersResults({ variables: { query: queryValue } });
+    getTracksResults({ variables: { query: queryValue } });
+    getPlaylistsResults({
+      variables: { query: queryValue },
+    });
   };
 
   const handleQueryChange = (e) => {
@@ -81,24 +101,28 @@ const Search = ({ match }) => {
     setInputValue(e.target.value);
   };
 
-  if (usersResults?.getUsersBySearch) {
-    console.log('got users!');
-    console.log(usersResults.getUsersBySearch);
-  }
+  // if (usersResults?.getUsersBySearch) {
+  //   console.log('got users!');
+  //   console.log(usersResults.getUsersBySearch);
+  // }
 
-  if (playlistsResults?.searchPlaylists) {
-    console.log('got playlists!');
-    console.log(playlistsResults.searchPlaylists);
-  }
+  // if (playlistsResults?.searchPlaylists) {
+  //   console.log('got playlists!');
+  //   console.log(playlistsResults.searchPlaylists);
+  // }
 
   if (usersError) {
+    console.log(usersError.message);
+  } else if (tracksError) {
+    console.log(usersError.message);
+  } else if (playlistsError) {
     console.log(usersError.message);
   }
 
   return (
-    <Grid container className={classes.root} spacing={2}>
-      <Grid item container justify="center">
-        <Grid item xs={10}>
+    <Container maxWidth="lg" className={classes.root}>
+      <Grid container>
+        <Grid item xs={12}>
           <Paper
             component="form"
             onSubmit={handleSearch}
@@ -129,13 +153,15 @@ const Search = ({ match }) => {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
 
-      {(usersLoading || tracksLoading || playlistsLoading) && (
-        <CircularProgress
-          style={{ margin: 'auto', padding: 20, color: '#029494' }}
-        />
-      )}
+        <Grid item container xs={12} justify="center">
+          {(usersLoading || tracksLoading || playlistsLoading) && (
+            <CircularProgress
+              style={{ margin: 'auto', padding: 20, color: '#029494' }}
+            />
+          )}
+        </Grid>
+      </Grid>
 
       {/* {!usersResults?.getUsersBySearch && !tracksResults?.getTracksBySearch && (
           <Grid item container alignItems="center" justify="center" spacing={2}>
@@ -174,15 +200,20 @@ const Search = ({ match }) => {
         )} */}
 
       {(usersResults?.getUsersBySearch || tracksResults?.getTracksBySearch) && (
-        <Grid item container alignItems="center" justify="center" spacing={1}>
-          <Grid item xs={10}>
+        <Grid
+          container
+          style={{ marginTop: 20 }}
+          direction="column"
+          spacing={1}
+        >
+          <Grid item>
             <Typography variant="inherit" component="h2">
               Results
             </Typography>
           </Grid>
 
           {usersResults?.getUsersBySearch && (
-            <Grid item container xs={10} spacing={2}>
+            <Grid item container>
               {usersResults.getUsersBySearch.map((user) => (
                 <Grid item key={user.id} xs={6} sm={4} md={3} lg={2}>
                   <UserTileCard user={user}></UserTileCard>
@@ -192,31 +223,35 @@ const Search = ({ match }) => {
           )}
 
           {tracksResults?.getTracksBySearch && (
-            <Grid item container xs={10} spacing={1}>
+            <Grid item container spacing={1}>
               {tracksResults.getTracksBySearch.map((track, index) => (
-                <Grid item key={track.id} xs={12}>
-                  <TrackRowCard
-                    track={track}
-                    index={index}
-                    playlist={tracksResults.getTracksBySearch}
-                  />
+                <Grid item container key={track.id}>
+                  <Grid item xs>
+                    <TrackRowCard
+                      track={track}
+                      index={index}
+                      playlist={tracksResults.getTracksBySearch}
+                    />
+                  </Grid>
                 </Grid>
               ))}
             </Grid>
           )}
 
           {playlistsResults?.searchPlaylists && (
-            <Grid item container xs={10} spacing={1}>
+            <Grid item container spacing={1}>
               {playlistsResults.searchPlaylists.map((playlist) => (
-                <Grid item key={playlist.id} xs={12}>
-                  <PlaylistRowCard playlist={playlist}></PlaylistRowCard>
+                <Grid item container key={playlist.id}>
+                  <Grid item xs>
+                    <PlaylistRowCard playlist={playlist}></PlaylistRowCard>
+                  </Grid>
                 </Grid>
               ))}
             </Grid>
           )}
         </Grid>
       )}
-    </Grid>
+    </Container>
   );
 };
 
