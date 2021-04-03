@@ -67,7 +67,7 @@ const MusicBar = (props) => {
               <Grid item>
                 <Avatar
                   alt="Track Artwork"
-                  src={currTrack ? currTrack.artwork.x150 : defaultMedia}
+                  src={currTrack ? currTrack.artwork?.x150 : defaultMedia}
                   variant="square"
                   className={classes.media}
                 />

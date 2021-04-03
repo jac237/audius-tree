@@ -28,6 +28,7 @@ export const playerSlice = createSlice({
       // console.log('attempting to play Next Song:', action);
       const { index, playlist } = action.payload;
       // console.log('index, playlist', index, playlist);
+      if (!playlist) return;
 
       let newIndex;
       newIndex = index + 1;
@@ -43,6 +44,7 @@ export const playerSlice = createSlice({
     playPrevSong: (state, action) => {
       // console.log('attempting to play Prev Song:', action);
       const { index, playlist } = action.payload;
+      if (!playlist) return;
 
       let newIndex;
       newIndex = index - 1;
