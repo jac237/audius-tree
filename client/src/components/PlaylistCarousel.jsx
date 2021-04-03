@@ -64,10 +64,11 @@ const myArrow = ({ type, onClick, isEdge }) => {
       justifyContent: 'center',
     },
     iconButton: {
+      background: isEdge ? '#121212' : '#151515',
       borderRadius: 5,
       display: 'flex',
       width: '1.8rem',
-      height: '100%',
+      height: '95%',
       margin: 'auto',
     },
   };
@@ -180,9 +181,9 @@ const Playlist = (props) => {
                 pagination={false}
                 breakPoints={breakPoints}
                 renderArrow={myArrow}
-                easing="cubic-bezier(1,.15,.55,1.54)"
-                tiltEasing="cubic-bezier(0.110, 1, 1.000, 0.210)"
-                transitionMs={700}
+                easing="cubic-bezier(1,.15,.52,1.2)"
+                tiltEasing="cubic-bezier(0.110, 0.2, 9.000, 0.210)"
+                transitionMs={450}
               >
                 {tracksData?.getPlaylistTracks.map((track, index) => (
                   <TrackTileCard

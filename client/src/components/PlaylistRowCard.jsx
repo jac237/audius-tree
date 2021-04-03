@@ -111,66 +111,64 @@ const PlaylistRowCard = (props) => {
         }}
       />
       <CardContent classes={{ root: classes.content }}>
-        <Grid item container direction="column">
-          <Grid item container justify="space-between" xs>
-            <Grid item>
-              <Chip
-                className={classes.chip}
-                variant="outlined"
-                label="Playlist"
-                size="small"
-              />
-            </Grid>
-
-            <Grid item>
-              <a
-                aria-label="delete"
-                onClick={handleMenuOpen}
-                className={classes.menuButton}
-              >
-                <MoreHorizIcon style={{ color: 'gray' }} />
-              </a>
-              <Menu
-                anchorEl={anchorEl}
-                keepMounted
-                open={isMenuOpen}
-                onClose={handleMenuClose}
-              >
-                <MenuItem
-                  component="a"
-                  href={`https://audius.co/playlists/${playlist.id}`}
-                >
-                  <Typography variant="body2" component="h4">
-                    View playlist on Audius
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Grid>
+        <Grid item container justify="space-between" xs>
+          <Grid item>
+            <Chip
+              className={classes.chip}
+              variant="outlined"
+              label="Playlist"
+              size="small"
+            />
           </Grid>
 
-          <Grid item container wrap="nowrap">
-            <Grid item zeroMinWidth>
-              <Typography
-                color="inherit"
-                component="h4"
-                variant="inherit"
-                gutterBottom
+          <Grid item>
+            <a
+              aria-label="delete"
+              onClick={handleMenuOpen}
+              className={classes.menuButton}
+            >
+              <MoreHorizIcon style={{ color: 'gray' }} />
+            </a>
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={isMenuOpen}
+              onClose={handleMenuClose}
+            >
+              <MenuItem
+                component="a"
+                href={`https://audius.co/playlists/${playlist.id}`}
               >
-                {playlist?.playlist_name}
-              </Typography>
-              {playlist?.description?.trim() && (
-                <UserTags string={playlist.description}></UserTags>
-              )}
-            </Grid>
+                <Typography variant="body2" component="h4">
+                  View playlist on Audius
+                </Typography>
+              </MenuItem>
+            </Menu>
           </Grid>
+        </Grid>
 
-          <Grid item container>
-            <Grid item>
-              <Typography variant="body2" style={{ color: 'gray' }}>
-                <Icon className="fas fa-play" style={{ fontSize: 10 }} />{' '}
-                {playlist.total_play_count.toLocaleString()}
-              </Typography>
-            </Grid>
+        <Grid item container>
+          <Grid item zeroMinWidth>
+            <Typography
+              color="inherit"
+              component="h4"
+              variant="inherit"
+              gutterBottom
+            >
+              {playlist?.playlist_name}
+            </Typography>
+            {playlist?.description?.trim() && (
+              <UserTags string={playlist.description}></UserTags>
+            )}
+          </Grid>
+        </Grid>
+
+        <Grid item container>
+          <Grid item>
+            <Typography variant="body2" style={{ color: 'gray' }}>
+              <Icon className="fas fa-play" style={{ fontSize: 10 }} />{' '}
+              {playlist.total_play_count.toLocaleString()}
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>
