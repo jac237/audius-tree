@@ -60,9 +60,10 @@ const UserTileCard = ({ user }) => {
     <Grid
       className={classes.root}
       container
+      spacing={1}
       direction="column"
       alignItems="center"
-      spacing={1}
+      wrap="nowrap"
     >
       <Grid item>
         <Link to={`/user/${user.handle}`} className={classes.routerLink}>
@@ -76,7 +77,7 @@ const UserTileCard = ({ user }) => {
           />
         </Link>
       </Grid>
-      <Grid item>
+      <Grid item zeroMinWidth>
         <Typography className={classes.handle} variant="inherit" noWrap>
           {user.name}
           {user?.is_verified && (

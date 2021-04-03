@@ -56,20 +56,18 @@ const UserTracksPaper = (props) => {
 
   return (
     <Container maxWidth="md" className={classes.root}>
-      <Grid item container alignItems="center" justify="center" spacing={1}>
-        <Grid item container spacing={1}>
-          {tracksData?.getUserTracks &&
-            tracksData.getUserTracks.map((track, index) => (
-              <Grid item key={track.id} xs={12}>
-                <TrackRowCard
-                  key={track.id}
-                  track={track}
-                  index={index}
-                  playlist={tracksData.getUserTracks}
-                />
-              </Grid>
-            ))}
-        </Grid>
+      <Grid item container spacing={1}>
+        {tracksData?.getUserTracks &&
+          tracksData.getUserTracks.map((track, index) => (
+            <Grid item key={track.id} xs={12}>
+              <TrackRowCard
+                key={track.id}
+                track={track}
+                index={index}
+                playlist={tracksData.getUserTracks}
+              />
+            </Grid>
+          ))}
       </Grid>
 
       {!loading &&

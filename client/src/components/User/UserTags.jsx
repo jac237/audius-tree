@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
+import Typography from '@material-ui/core/Typography';
 const MAX_NUM_TAGS = 5;
+const MAX_NUM_CHARS = 80;
 
 const classes = {
   root: {
@@ -32,7 +34,9 @@ const Tags = ({ string }) => {
   }, []);
 
   return !validTags ? (
-    <div>{string ? `${string.slice(0, 80)}` : null}</div>
+    <Typography variant="subtitle2" style={{ color: 'gray' }} gutterBottom>
+      {string ? `${string.slice(0, MAX_NUM_CHARS)}` : null}
+    </Typography>
   ) : (
     <Grid container spacing={1} style={classes.root}>
       {tags.map((tag) => (
