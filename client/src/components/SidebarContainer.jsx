@@ -14,16 +14,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import AppsIcon from '@material-ui/icons/Apps';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import SearchIcon from '@material-ui/icons/Search';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import AddIcon from '@material-ui/icons/Add';
 import HelpIcon from '@material-ui/icons/Help';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import Divider from '@material-ui/core/Divider';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LocalPizzaIcon from '@material-ui/icons/LocalPizza';
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 const drawerWidth = 240;
 
@@ -62,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
   },
+  listItem: {
+    minWidth: 40,
+  },
   listIcon: {
     color: 'white',
   },
@@ -79,9 +80,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SidebarContainer(props) {
-  const { window, children } = props;
   const classes = useStyles();
+  const { window, children } = props;
   const theme = useTheme();
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -93,41 +95,28 @@ function SidebarContainer(props) {
       <Link to="/">
         <img src="https://i.imgur.com/YsNnnJW.png" width="100%" />
       </Link>
-      <Divider />
+
       {/** NAVIGATION */}
-      <Typography
-        variant="inherit"
-        align="center"
-        component="h5"
-        className={classes.subheader}
-      >
-        Made with{' '}
-        <FavoriteIcon
-          color="secondary"
-          style={{ fontSize: 15, verticalAlign: 'middle' }}
-        />{' '}
-        using Audius API
-      </Typography>
       <List>
         <ListItem button key="search" component={Link} to="/search">
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <SearchIcon className={classes.listIcon} />
           </ListItemIcon>
           <ListItemText disableTypography primary="Search" />
         </ListItem>
 
         <ListItem button key="home" component={Link} to="/">
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <QueueMusicIcon className={classes.listIcon} />
           </ListItemIcon>
           <ListItemText disableTypography primary="Home" />
         </ListItem>
 
-        <ListItem button disabled key="request" component={Link} to="/request">
-          <ListItemIcon>
-            <AddIcon className={classes.listIcon} />
+        <ListItem button key="request" component={Link} to="/feedback">
+          <ListItemIcon className={classes.listItem}>
+            <LoyaltyIcon className={classes.listIcon} />
           </ListItemIcon>
-          <ListItemText disableTypography primary="Request Playlist" />
+          <ListItemText disableTypography primary="Request & Feedback" />
         </ListItem>
 
         <ListItem
@@ -137,27 +126,13 @@ function SidebarContainer(props) {
           component={Link}
           to="/howitworks"
         >
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <HelpIcon className={classes.listIcon} />
           </ListItemIcon>
           <ListItemText disableTypography primary="How it Works" />
         </ListItem>
-
-        <ListItem
-          button
-          disabled
-          key="feedback"
-          component={Link}
-          to="/feedback"
-        >
-          <ListItemIcon>
-            <FeedbackIcon className={classes.listIcon} />
-          </ListItemIcon>
-          <ListItemText disableTypography primary="Feedback" />
-        </ListItem>
       </List>
 
-      <Divider />
       {/** SOCIALS */}
       <List
         subheader={
@@ -174,7 +149,7 @@ function SidebarContainer(props) {
           target="_blank"
           rel="noopener"
         >
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <img
               src="https://i.imgur.com/UVSBxyJ.png"
               width="24px"
@@ -192,7 +167,7 @@ function SidebarContainer(props) {
           target="_blank"
           rel="noopener"
         >
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <TwitterIcon className={classes.listIcon} />
           </ListItemIcon>
           <ListItemText disableTypography primary="Twitter" />
@@ -206,7 +181,7 @@ function SidebarContainer(props) {
           target="_blank"
           rel="noopener"
         >
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <GitHubIcon className={classes.listIcon} />
           </ListItemIcon>
           <ListItemText disableTypography primary="Github" />
@@ -220,7 +195,7 @@ function SidebarContainer(props) {
           target="_blank"
           rel="noopener"
         >
-          <ListItemIcon>
+          <ListItemIcon className={classes.listItem}>
             <LocalPizzaIcon className={classes.listIcon} />
           </ListItemIcon>
           <ListItemText disableTypography primary="Buy me Pizza" />

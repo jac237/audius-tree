@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   handle: {
     display: 'inline-flex',
+    verticalAlign: 'middle',
     color: 'white',
     fontWeight: 'bold',
     fontSize: 15,

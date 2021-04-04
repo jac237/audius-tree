@@ -73,9 +73,12 @@ const Search = ({ match }) => {
   ] = useLazyQuery(PLAYLIST_SEARCH);
 
   useEffect(() => {
-    console.log('useEffect ran', query.get('query'));
-    setInputValue(query.get('query'));
-    handleSearch(null, query.get('query'));
+    const urlQuery = query.get('query');
+    console.log('useEffect ran', urlQuery);
+    if (urlQuery) {
+      setInputValue(urlQuery);
+      handleSearch(null, urlQuery);
+    }
   }, []);
 
   const handleSearch = (e = null, value = null) => {

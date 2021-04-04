@@ -25,8 +25,10 @@ const theme = createMuiTheme({
 const LoadingUserStats = () => {
   return (
     <Grid container direction="column" spacing={2} alignItems="center">
-      <Grid item container xs>
-        <Skeleton animation="wave" variant="rect" width="100%" height={250} />
+      <Grid item container>
+        <Grid item xs>
+          <Skeleton animation="wave" variant="rect" width="100%" height={250} />
+        </Grid>
       </Grid>
 
       <Grid item container xs={11} spacing={4}>

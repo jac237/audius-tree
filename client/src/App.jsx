@@ -10,7 +10,7 @@ import MusicBar from './components/MusicBar';
 const Home = lazy(() => import('./routes/Home'));
 const User = lazy(() => import('./routes/User'));
 const Search = lazy(() => import('./routes/Search'));
-const Request = lazy(() => import('./routes/Request'));
+const RequestFeedbackForm = lazy(() => import('./routes/RequestFeedbackForm'));
 const HowItWorks = lazy(() => import('./routes/HowItWorks'));
 const Feedback = lazy(() => import('./routes/Feedback'));
 
@@ -24,9 +24,8 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route path="/user/:handle" component={User} />
               <Route exact path="/search" component={Search} />
-              <Route exact path="/request" component={Request} />
               <Route exact path="/howitworks" component={HowItWorks} />
-              <Route exact path="/feedback" component={Feedback} />
+              <Route exact path="/feedback" component={RequestFeedbackForm} />
             </Switch>
           </Suspense>
         </SidebarContainer>
