@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
+  cardTitle: {
+    wordBreak: 'break-all',
+  },
   handle: {
     display: 'inline-flex',
     color: 'darkgray',
@@ -122,6 +125,11 @@ const TrackRowCard = (props) => {
             dispatch(setCurrPlaylist(playlist));
           }
         }}
+        onError={(event) => {
+          console.log('image error:', event);
+          event.onerror = null;
+          event.target.src = defaultCover;
+        }}
       />
       <CardContent classes={{ root: classes.content }}>
         <Grid item container justify="space-between" xs>
@@ -148,9 +156,10 @@ const TrackRowCard = (props) => {
           </Grid>
         </Grid>
 
-        <Grid item container wrap="nowrap">
+        <Grid item container>
           <Grid item zeroMinWidth>
             <Typography
+              className={classes.cardTitle}
               color="inherit"
               component="h4"
               variant="inherit"

@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
     //   cursor: 'pointer',
     // },
   },
+  cardTitle: {
+    wordBreak: 'break-all',
+  },
   handle: {
     display: 'inline-flex',
     color: 'darkgray',
@@ -150,6 +153,7 @@ const PlaylistRowCard = (props) => {
         <Grid item container>
           <Grid item zeroMinWidth>
             <Typography
+              className={classes.cardTitle}
               color="inherit"
               component="h4"
               variant="inherit"
