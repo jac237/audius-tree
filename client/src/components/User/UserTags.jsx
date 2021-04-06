@@ -34,7 +34,11 @@ const Tags = ({ string }) => {
   }, []);
 
   return !validTags ? (
-    <Typography variant="subtitle2" style={{ color: 'gray' }} gutterBottom>
+    <Typography
+      variant="subtitle2"
+      style={{ color: 'gray', wordBreak: 'break-all' }}
+      gutterBottom
+    >
       {string ? `${string.slice(0, MAX_NUM_CHARS)}` : null}
     </Typography>
   ) : (
