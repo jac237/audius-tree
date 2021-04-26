@@ -93,7 +93,7 @@ const getUserTags = async (userId) => {
 };
 
 const getUsersBySearch = async (query) => {
-  if (!query) return [];
+  if (!query) throw new Error('No query was provided.');
   const host = await selectHost();
   return axios({
     method: 'GET',
@@ -104,7 +104,10 @@ const getUsersBySearch = async (query) => {
   })
     .then((res) => res.data)
     .then((json) => json.data)
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
 };
 
 module.exports = {
